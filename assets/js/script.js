@@ -84,6 +84,17 @@ jQuery(document).ready(function ($) {
                 `;
 
                 $('.solex-job-detail-inner').html(html);
+                // MOBILE AUTO SCROLL
+
+                if ($(window).width() < 768) {
+
+                    $('html, body').animate({
+
+                        scrollTop: $('#solex-job-detail').offset().top - 20
+
+                    }, 500);
+
+                }
             }
         });
 
