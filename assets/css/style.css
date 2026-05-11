@@ -51,7 +51,8 @@
 .solex-job-detail{
     width:55%;
     position:sticky;
-    top:100px;
+    top:90px;
+    align-self:flex-start;
 }
 
 /* CARD */
@@ -272,12 +273,55 @@
     margin-top:30px;
 }
 
-/* RESPONSIVE */
+.solex-job-card,
+.solex-page-btn,
+.solex-apply-btn{
+    -webkit-tap-highlight-color: transparent;
+}
 
-@media(max-width:991px){
+.solex-job-card:active{
+    transform:scale(0.98);
+}
+
+
+/* =========================================
+TABLET
+========================================= */
+
+@media(max-width:1024px){
+
+    .solex-careers-wrapper{
+        gap:20px;
+    }
+
+    .solex-job-list{
+        width:42%;
+    }
+
+    .solex-job-detail{
+        width:58%;
+    }
+
+    .solex-job-detail-inner{
+        padding:28px;
+    }
+
+    .solex-job-detail-inner h2{
+        font-size:30px;
+    }
+}
+
+
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media(max-width:767px){
 
     .solex-careers-wrapper{
         flex-direction:column;
+        gap:20px;
     }
 
     .solex-job-list,
@@ -288,5 +332,177 @@
     .solex-job-detail{
         position:relative;
         top:auto;
+    }
+
+    /* CARD */
+
+    .solex-job-card{
+        padding:16px;
+        border-radius:12px;
+    }
+
+    .solex-job-top{
+        gap:12px;
+        align-items:flex-start;
+    }
+
+    .solex-icon{
+        width:42px;
+        height:42px;
+        font-size:18px;
+        border-radius:12px;
+    }
+
+    .solex-job-info{
+        width:100%;
+    }
+
+    .solex-job-info h3{
+        font-size:18px;
+        line-height:1.3;
+        margin-bottom:8px;
+    }
+
+    .solex-meta{
+        gap:6px;
+        font-size:13px;
+        margin-bottom:8px;
+    }
+
+    .solex-location{
+        font-size:13px;
+    }
+
+    .solex-job-footer{
+        margin-top:14px;
+    }
+
+    .solex-openings{
+        padding:6px 10px;
+        font-size:12px;
+    }
+
+    .solex-card-arrow{
+        width:32px;
+        height:32px;
+        border-radius:8px;
+        font-size:16px;
+    }
+
+    /* DETAIL PANEL */
+
+    .solex-job-detail-inner{
+        padding:22px;
+        border-radius:14px;
+        min-height:auto;
+    }
+
+    .solex-job-detail-inner h2{
+        font-size:26px;
+        line-height:1.3;
+    }
+
+    .solex-detail-meta{
+        gap:10px;
+        font-size:13px;
+    }
+
+    .solex-openings-box{
+        padding:12px;
+        margin:18px 0;
+        font-size:14px;
+    }
+
+    .solex-job-detail-inner h4{
+        font-size:18px;
+        margin-top:22px;
+        margin-bottom:12px;
+    }
+
+    .solex-job-detail-inner p,
+    .solex-job-detail-inner li{
+        font-size:14px;
+        line-height:1.7;
+    }
+
+    .solex-job-detail-inner ul{
+        padding-left:16px;
+    }
+
+    .solex-apply-btn{
+        padding:14px;
+        border-radius:12px;
+        font-size:15px;
+        margin-top:24px;
+    }
+
+    /* PAGINATION */
+
+    .solex-pagination{
+        margin-top:22px;
+        flex-wrap:wrap;
+    }
+
+    .solex-page-btn{
+        width:38px;
+        height:38px;
+        border-radius:10px;
+        font-size:14px;
+    }
+
+}
+
+
+
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+    .solex-careers-wrapper{
+        gap:16px;
+    }
+
+    .solex-job-card{
+        padding:14px;
+    }
+
+    .solex-job-info h3{
+        font-size:16px;
+    }
+
+    .solex-meta{
+        flex-wrap:wrap;
+    }
+
+    .solex-job-detail-inner{
+        padding:18px;
+    }
+
+    .solex-job-detail-inner h2{
+        font-size:22px;
+    }
+
+    .solex-detail-meta{
+        flex-direction:column;
+        gap:6px;
+    }
+
+    .solex-openings-box{
+        font-size:13px;
+    }
+
+    .solex-job-detail-inner h4{
+        font-size:16px;
+    }
+
+    .solex-job-detail-inner p,
+    .solex-job-detail-inner li{
+        font-size:13px;
+    }
+
+    .solex-apply-btn{
+        font-size:14px;
     }
 }
