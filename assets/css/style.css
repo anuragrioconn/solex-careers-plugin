@@ -1,0 +1,294 @@
+:root{
+    --heading-color:#1a1a1a;
+    --text-color:#4b4b4d;
+    --primary:#2c4a96;
+    --border:#eaeaea;
+    --light-bg:#f8f9fc;
+}
+
+/* GLOBAL */
+
+.solex-careers-wrapper *{
+    box-sizing:border-box;
+}
+
+.solex-careers-wrapper{
+    display:flex;
+    gap:30px;
+    align-items:flex-start;
+    font-family:'Roboto', sans-serif;
+}
+
+/* HEADINGS */
+
+.solex-careers-wrapper h1,
+.solex-careers-wrapper h2,
+.solex-careers-wrapper h3,
+.solex-careers-wrapper h4,
+.solex-careers-wrapper h5{
+    font-family:'DM Sans', sans-serif;
+    color:var(--heading-color);
+    margin-top:0;
+}
+
+/* TEXT */
+
+.solex-careers-wrapper p,
+.solex-careers-wrapper span,
+.solex-careers-wrapper li,
+.solex-careers-wrapper div{
+    color:var(--text-color);
+}
+
+/* LEFT */
+
+.solex-job-list{
+    width:45%;
+}
+
+/* RIGHT */
+
+.solex-job-detail{
+    width:55%;
+    position:sticky;
+    top:100px;
+}
+
+/* CARD */
+
+.solex-job-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    margin-bottom:20px;
+    transition:0.3s ease;
+    cursor:pointer;
+}
+
+.solex-job-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 40px rgba(0,0,0,0.06);
+}
+
+.solex-job-card.active{
+
+    border:2px solid #2c4a96;
+    background:#f5f8ff;
+
+    box-shadow:
+        0 10px 30px rgba(44,74,150,0.12);
+
+    transform:translateY(-2px);
+}
+
+.solex-job-top{
+    display:flex;
+    gap:20px;
+}
+
+.solex-icon{
+    width:60px;
+    height:60px;
+    background:#eef3ff;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    flex-shrink:0;
+}
+
+.solex-job-info h3{
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.solex-meta{
+    display:flex;
+    gap:12px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+}
+
+.solex-location{
+    font-size:14px;
+}
+
+/* FOOTER */
+
+.solex-job-footer{
+    margin-top:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.solex-openings{
+    background:#eaf8ec;
+    color:#2d7b3f !important;
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:500;
+}
+
+.solex-view-details{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+    font-family:'DM Sans', sans-serif;
+    font-weight:600;
+}
+
+.solex-view-details:hover{
+    transform:translateY(-2px);
+}
+
+/* DETAIL PANEL */
+
+.solex-job-detail-inner{
+    background:#fff;
+    padding:35px;
+    border-radius:26px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+    min-height:500px;
+}
+
+.solex-job-detail-inner h2{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.solex-detail-meta{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+.solex-openings-box{
+    background:#eef8f0;
+    padding:16px;
+    border-radius:14px;
+    margin:20px 0;
+    font-weight:500;
+}
+
+.solex-job-detail-inner ul{
+    padding-left:18px;
+}
+
+.solex-job-detail-inner li{
+    margin-bottom:10px;
+}
+
+.solex-apply-btn{
+    background:var(--primary);
+    color:#fff;
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    margin-top:30px;
+    font-size:16px;
+    cursor:pointer;
+    font-family:'DM Sans', sans-serif;
+    font-weight:700;
+}
+
+/* PAGINATION */
+
+.solex-pagination{
+    display:flex;
+    gap:10px;
+    margin-top:30px;
+    justify-content:center;
+}
+
+.solex-page-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:#f1f3f8;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.solex-page-btn.active{
+    background:var(--primary);
+    color:#fff;
+}
+
+/* SKELETON */
+
+.skeleton{
+    position:relative;
+    overflow:hidden;
+    background:#e5e7eb;
+    border-radius:10px;
+}
+
+.skeleton::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-150px;
+    width:150px;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    animation:skeleton-loading 1.2s infinite;
+}
+
+@keyframes skeleton-loading{
+
+    100%{
+        left:100%;
+    }
+}
+
+.skeleton-title{
+    height:32px;
+    width:60%;
+    margin-bottom:20px;
+}
+
+.skeleton-text{
+    height:14px;
+    margin-bottom:14px;
+}
+
+.skeleton-button{
+    height:48px;
+    margin-top:30px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:991px){
+
+    .solex-careers-wrapper{
+        flex-direction:column;
+    }
+
+    .solex-job-list,
+    .solex-job-detail{
+        width:100%;
+    }
+
+    .solex-job-detail{
+        position:relative;
+        top:auto;
+    }
+}
