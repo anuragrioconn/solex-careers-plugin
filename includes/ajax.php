@@ -7,7 +7,8 @@ if (!defined('ABSPATH')) {
 add_action('wp_ajax_solex_get_job_detail', 'solex_get_job_detail_callback');
 add_action('wp_ajax_nopriv_solex_get_job_detail', 'solex_get_job_detail_callback');
 
-function solex_get_job_detail_callback() {
+function solex_get_job_detail_callback()
+{
 
     $job_id = intval($_POST['job_id']);
 
@@ -29,13 +30,14 @@ function solex_get_job_detail_callback() {
 add_action('wp_ajax_solex_load_jobs', 'solex_load_jobs_callback');
 add_action('wp_ajax_nopriv_solex_load_jobs', 'solex_load_jobs_callback');
 
-function solex_load_jobs_callback() {
+function solex_load_jobs_callback()
+{
 
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 
     $jobs = solex_get_jobs_data();
 
-    $per_page = 2;
+    $per_page = 5;
 
     $total_jobs = count($jobs);
 
@@ -49,9 +51,9 @@ function solex_load_jobs_callback() {
 
     foreach ($paged_jobs as $job) :
 
-    ?>
+?>
 
-        <div class="solex-job-card">
+        <div class="solex-job-card solex-view-details" data-job-id="<?php echo esc_attr($job['job_id']); ?>">
 
             <div class="solex-job-top">
 
@@ -93,12 +95,9 @@ function solex_load_jobs_callback() {
                     <?php echo esc_html($job['openings']); ?> Openings
                 </div>
 
-                <button
-                    class="solex-view-details"
-                    data-job-id="<?php echo esc_attr($job['job_id']); ?>"
-                >
-                    View Details →
-                </button>
+                <div class="solex-card-arrow">
+                    →
+                </div>
 
             </div>
 
@@ -116,12 +115,11 @@ function solex_load_jobs_callback() {
 
     <div class="solex-pagination">
 
-        <?php for($i = 1; $i <= $total_pages; $i++) : ?>
+        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
 
             <button
                 class="solex-page-btn <?php echo ($page == $i) ? 'active' : ''; ?>"
-                data-page="<?php echo $i; ?>"
-            >
+                data-page="<?php echo $i; ?>">
                 <?php echo $i; ?>
             </button>
 
@@ -129,7 +127,7 @@ function solex_load_jobs_callback() {
 
     </div>
 
-    <?php
+<?php
 
     $pagination_html = ob_get_clean();
 

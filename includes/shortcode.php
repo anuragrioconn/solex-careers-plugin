@@ -25,7 +25,7 @@ function solex_jobs_shortcode()
 
                 <?php
 
-                $per_page = 2;
+                $per_page = 5;
 
                 $page = 1;
 
@@ -37,7 +37,7 @@ function solex_jobs_shortcode()
 
                 <?php foreach ($paged_jobs as $job) : ?>
 
-                    <div class="solex-job-card">
+                    <div class="solex-job-card solex-view-details" data-job-id="<?php echo esc_attr($job['job_id']); ?>">
 
                         <div class="solex-job-top">
 
@@ -79,11 +79,9 @@ function solex_jobs_shortcode()
                                 <?php echo esc_html($job['openings']); ?> Openings
                             </div>
 
-                            <button
-                                class="solex-view-details"
-                                data-job-id="<?php echo esc_attr($job['job_id']); ?>">
-                                View Details →
-                            </button>
+                            <div class="solex-card-arrow">
+                                →
+                            </div>
 
                         </div>
 
