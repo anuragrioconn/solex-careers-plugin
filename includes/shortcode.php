@@ -121,7 +121,7 @@ function solex_jobs_shortcode()
 
         <!-- RIGHT SIDE -->
 
-        <div class="solex-job-detail">
+        <div class="solex-job-detail" id="solex-job-detail">
 
             <div class="solex-job-detail-inner">
 

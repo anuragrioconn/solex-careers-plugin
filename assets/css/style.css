@@ -319,6 +319,20 @@ MOBILE
 
 @media(max-width:767px){
 
+    .solex-job-detail{
+        margin-top:10px;
+    }
+
+    .solex-job-detail::before{
+        content:'Job Details';
+        display:block;
+        font-family:'DM Sans', sans-serif;
+        font-size:20px;
+        font-weight:700;
+        color:#1a1a1a;
+        margin-bottom:14px;
+    }
+
     .solex-careers-wrapper{
         flex-direction:column;
         gap:20px;
