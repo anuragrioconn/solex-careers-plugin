@@ -9,6 +9,18 @@ jQuery(document).ready(function ($) {
         $('.solex-job-card').removeClass('active');
 
         $(this).closest('.solex-job-card').addClass('active');
+        
+        // MOBILE INSTANT SCROLL
+
+        if ($(window).width() < 768) {
+
+            $('html, body').stop().animate({
+
+                scrollTop: $('#solex-job-detail').offset().top - 20
+
+            }, 350);
+
+        }
 
         $('.solex-job-detail-inner').html(`
 
@@ -84,17 +96,7 @@ jQuery(document).ready(function ($) {
                 `;
 
                 $('.solex-job-detail-inner').html(html);
-                // MOBILE AUTO SCROLL
-
-                if ($(window).width() < 768) {
-
-                    $('html, body').animate({
-
-                        scrollTop: $('#solex-job-detail').offset().top - 20
-
-                    }, 500);
-
-                }
+                
             }
         });
 
