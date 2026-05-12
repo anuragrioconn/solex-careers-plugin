@@ -90,7 +90,7 @@ function solex_jobs_shortcode() {
                         <div class="solex-job-top">
 
                             <div class="solex-icon">
-                                 <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase"></i>
                             </div>
 
                             <div class="solex-job-info">
@@ -150,7 +150,7 @@ function solex_jobs_shortcode() {
 
                                     <span class="solex-tag">
 
-                                        ⭐
+                                        <i class="fa-solid fa-hourglass-half"></i>
 
                                         <?php
 
@@ -180,7 +180,7 @@ function solex_jobs_shortcode() {
 
                                     <span class="solex-tag">
 
-                                        💼
+                                        <i class="fa-solid fa-user-tie"></i>
 
                                         <?php
 
@@ -199,7 +199,7 @@ function solex_jobs_shortcode() {
 
                                 <div class="solex-company">
 
-                                    🏢
+                                    <i class="fa-solid fa-building"></i>
 
                                     <?php
 
