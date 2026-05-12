@@ -481,7 +481,9 @@
     padding: 5px 9px;
   }
   .solex-location {
-    font-size: 13px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
   }
   .solex-job-extra {
     gap: 8px;
