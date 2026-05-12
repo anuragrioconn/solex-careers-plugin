@@ -584,3 +584,297 @@
     font-size: 14px;
   }
 }
+
+
+/* =========================================
+ICONS
+========================================= */
+
+.solex-inline-icon{
+    width:16px;
+    height:16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:6px;
+    color:#f58634;
+    flex-shrink:0;
+}
+
+.solex-inline-icon svg{
+    width:16px;
+    height:16px;
+    stroke-width:2;
+}
+
+/* =========================================
+META ROW IMPROVEMENTS
+========================================= */
+
+.solex-meta{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+.solex-meta span{
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    background:#f7f7f7;
+
+    padding:7px 12px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    line-height:1;
+}
+
+.solex-location{
+
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+
+    font-size:14px;
+
+    margin-bottom:12px;
+
+    line-height:1.7;
+}
+
+/* =========================================
+DETAIL META IMPROVEMENTS
+========================================= */
+
+.solex-detail-meta{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:10px;
+    margin-bottom:26px;
+}
+
+.solex-detail-meta span{
+
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    background:#f6f6f6;
+
+    padding:9px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    line-height:1;
+}
+
+/* =========================================
+DETAIL GRID IMPROVEMENTS
+========================================= */
+
+.solex-detail-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    margin:28px 0;
+}
+
+.solex-detail-item{
+
+    background:#fafafa;
+
+    border:1px solid #f0f0f0;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    transition:var(--transition);
+}
+
+.solex-detail-item:hover{
+
+    border-color:#ffd8bc;
+
+    background:#fffdfb;
+}
+
+.solex-detail-item label{
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:0.7px;
+
+    margin-bottom:10px;
+
+    color:#888 !important;
+}
+
+.solex-detail-item div{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    line-height:1.7;
+
+    color:#1a1a1a;
+}
+
+/* =========================================
+DESCRIPTION
+========================================= */
+
+.solex-description{
+
+    line-height:1.9;
+
+    color:#4b4b4d;
+}
+
+.solex-description p{
+    margin-bottom:18px;
+}
+
+.solex-description ul{
+    margin-top:14px;
+}
+
+.solex-description strong{
+    color:#1a1a1a;
+}
+
+/* =========================================
+OPENING BOX IMPROVEMENT
+========================================= */
+
+.solex-openings-box{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    background:#fff5ec;
+
+    padding:16px 18px;
+
+    border-radius:16px;
+
+    margin:24px 0;
+
+    font-weight:600;
+
+    border-left:4px solid #f58634;
+}
+
+/* =========================================
+EMPTY DESCRIPTION
+========================================= */
+
+.solex-empty-description{
+
+    background:#fafafa;
+
+    border:1px dashed #ddd;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    font-size:14px;
+
+    line-height:1.8;
+}
+
+/* =========================================
+MOBILE IMPROVEMENTS
+========================================= */
+
+@media(max-width:767px){
+
+    .solex-meta{
+        gap:8px;
+    }
+
+    .solex-meta span{
+
+        padding:6px 10px;
+
+        font-size:11px;
+    }
+
+    .solex-location{
+        font-size:13px;
+    }
+
+    .solex-detail-meta{
+        gap:8px;
+    }
+
+    .solex-detail-meta span{
+
+        font-size:12px;
+
+        padding:8px 12px;
+    }
+
+    .solex-detail-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+    }
+
+    .solex-detail-item{
+        padding:15px;
+    }
+
+    .solex-detail-item div{
+        font-size:14px;
+    }
+}
+
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+    .solex-meta{
+        gap:6px;
+    }
+
+    .solex-meta span{
+
+        width:100%;
+
+        justify-content:flex-start;
+    }
+
+    .solex-detail-meta span{
+
+        width:100%;
+
+        justify-content:flex-start;
+    }
+}
