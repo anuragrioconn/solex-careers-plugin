@@ -106,6 +106,14 @@
   margin-bottom: 10px;
   font-weight: 700;
 }
+
+.solex-job-tags{
+    padding-bottom: 10px;
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+
+}
 .solex-meta {
   display: flex;
   gap: 8px;
@@ -123,7 +131,13 @@
   font-size: 14px;
   margin-bottom: 12px;
   line-height: 1.6;
+  display: flex;
+  align-items: center;
 } 
+
+.solex-company{
+    font-size: 14px;
+}
 
 /* ========================================= NEW CARD EXTRA INFO ========================================= */
 .solex-job-extra {
