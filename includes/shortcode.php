@@ -4,12 +4,64 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+
+/**
+ * SHORTCODE
+ */
+
 add_shortcode('solex_jobs', 'solex_jobs_shortcode');
 
-function solex_jobs_shortcode()
-{
+function solex_jobs_shortcode() {
 
-    $jobs = solex_get_jobs_data();
+    /**
+     * GET LOCAL JOBS
+     */
+
+    $jobs = solex_get_jobs();
+
+    /**
+     * EMPTY STATE
+     */
+
+    if (empty($jobs)) {
+
+        return '
+
+            <div class="solex-empty-state">
+
+                <h3>
+                    No Open Positions Currently
+                </h3>
+
+                <p>
+                    Please check back later for future opportunities.
+                </p>
+
+            </div>
+
+        ';
+    }
+
+
+
+    /**
+     * PAGINATION
+     */
+
+    $per_page = 5;
+
+    $page = 1;
+
+    $offset = 0;
+
+    $paged_jobs = array_slice($jobs, $offset, $per_page);
+
+    $total_jobs = count($jobs);
+
+    $total_pages = ceil($total_jobs / $per_page);
+
+
 
     ob_start();
 
@@ -23,21 +75,15 @@ function solex_jobs_shortcode()
 
             <div id="solex-jobs-container">
 
-                <?php
-
-                $per_page = 5;
-
-                $page = 1;
-
-                $offset = 0;
-
-                $paged_jobs = array_slice($jobs, $offset, $per_page);
-
-                ?>
-
                 <?php foreach ($paged_jobs as $job) : ?>
 
-                    <div class="solex-job-card solex-view-details" data-job-id="<?php echo esc_attr($job['job_id']); ?>">
+                    <div
+
+                        class="solex-job-card solex-view-details"
+
+                        data-job-id="<?php echo esc_attr($job['job_id']); ?>"
+
+                    >
 
                         <div class="solex-job-top">
 
@@ -48,25 +94,63 @@ function solex_jobs_shortcode()
                             <div class="solex-job-info">
 
                                 <h3>
-                                    <?php echo esc_html($job['title']); ?>
+
+                                    <?php
+
+                                    echo esc_html(
+
+                                        $job['title'] ?? 'Untitled Job'
+                                    );
+
+                                    ?>
+
                                 </h3>
 
                                 <div class="solex-meta">
 
                                     <span>
-                                        <?php echo esc_html($job['department']); ?>
+
+                                        <?php
+
+                                        echo esc_html(
+
+                                            $job['department'] ?? 'Department'
+                                        );
+
+                                        ?>
+
                                     </span>
 
                                     <span>•</span>
 
                                     <span>
-                                        <?php echo esc_html($job['type']); ?>
+
+                                        <?php
+
+                                        echo esc_html(
+
+                                            $job['type'] ?? 'Full Time'
+                                        );
+
+                                        ?>
+
                                     </span>
 
                                 </div>
 
                                 <div class="solex-location">
-                                    📍 <?php echo esc_html($job['location']); ?>
+
+                                    📍
+
+                                    <?php
+
+                                    echo esc_html(
+
+                                        $job['location'] ?? 'Location'
+                                    );
+
+                                    ?>
+
                                 </div>
 
                             </div>
@@ -76,7 +160,18 @@ function solex_jobs_shortcode()
                         <div class="solex-job-footer">
 
                             <div class="solex-openings">
-                                <?php echo esc_html($job['openings']); ?> Openings
+
+                                <?php
+
+                                echo esc_html(
+
+                                    $job['openings'] ?? 1
+                                );
+
+                                ?>
+
+                                Openings
+
                             </div>
 
                             <div class="solex-card-arrow">
@@ -91,13 +186,9 @@ function solex_jobs_shortcode()
 
             </div>
 
-            <?php
 
-            $total_jobs = count($jobs);
 
-            $total_pages = ceil($total_jobs / $per_page);
-
-            ?>
+            <!-- PAGINATION -->
 
             <div id="solex-pagination-container">
 
@@ -106,9 +197,15 @@ function solex_jobs_shortcode()
                     <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
 
                         <button
+
                             class="solex-page-btn <?php echo ($page == $i) ? 'active' : ''; ?>"
-                            data-page="<?php echo $i; ?>">
-                            <?php echo $i; ?>
+
+                            data-page="<?php echo esc_attr($i); ?>"
+
+                        >
+
+                            <?php echo esc_html($i); ?>
+
                         </button>
 
                     <?php endfor; ?>
@@ -119,13 +216,23 @@ function solex_jobs_shortcode()
 
         </div>
 
+
+
         <!-- RIGHT SIDE -->
 
-        <div class="solex-job-detail" id="solex-job-detail">
+        <div
+
+            class="solex-job-detail"
+
+            id="solex-job-detail"
+
+        >
 
             <div class="solex-job-detail-inner">
 
-                <h2>Select a Job</h2>
+                <h2>
+                    Select a Job
+                </h2>
 
                 <p>
                     Click on any job to view details.

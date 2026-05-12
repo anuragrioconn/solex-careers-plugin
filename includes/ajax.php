@@ -4,40 +4,124 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+
+/**
+ * JOB DETAIL AJAX
+ */
+
 add_action('wp_ajax_solex_get_job_detail', 'solex_get_job_detail_callback');
+
 add_action('wp_ajax_nopriv_solex_get_job_detail', 'solex_get_job_detail_callback');
 
 function solex_get_job_detail_callback()
 {
 
-    $job_id = intval($_POST['job_id']);
+    /**
+     * VALIDATE JOB ID
+     */
 
-    $jobs = solex_get_jobs_data();
+    $job_id = isset($_POST['job_id'])
 
-    $selected_job = null;
+        ? sanitize_text_field($_POST['job_id'])
 
-    foreach ($jobs as $job) {
+        : '';
 
-        if ($job['job_id'] == $job_id) {
-            $selected_job = $job;
-        }
+    if (empty($job_id)) {
+
+        wp_send_json_error([
+            'message' => 'Invalid Job ID'
+        ]);
     }
 
-    wp_send_json($selected_job);
+
+
+    /**
+     * GET LOCAL JOBS
+     */
+
+    $jobs = solex_get_jobs();
+
+    if (empty($jobs)) {
+
+        wp_send_json_error([
+            'message' => 'No jobs found'
+        ]);
+    }
+
+
+
+    /**
+     * FIND JOB
+     */
+
+    $selected_job = solex_get_job($job_id);
+
+
+
+
+
+    /**
+     * RETURN RESPONSE
+     */
+
+    if (!$selected_job) {
+
+        wp_send_json_error([
+            'message' => 'Job not found'
+        ]);
+    }
+
+    wp_send_json_success($selected_job);
 }
 
-// For pagination (if needed in future)
+
+
+
+
+/**
+ * AJAX PAGINATION
+ */
+
 add_action('wp_ajax_solex_load_jobs', 'solex_load_jobs_callback');
+
 add_action('wp_ajax_nopriv_solex_load_jobs', 'solex_load_jobs_callback');
 
 function solex_load_jobs_callback()
 {
 
-    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    /**
+     * PAGINATION
+     */
 
-    $jobs = solex_get_jobs_data();
+    $page = isset($_POST['page'])
+
+        ? intval($_POST['page'])
+
+        : 1;
 
     $per_page = 5;
+
+
+
+    /**
+     * GET LOCAL JOBS
+     */
+
+    $jobs = solex_get_jobs();
+
+    if (empty($jobs)) {
+
+        wp_send_json_error([
+            'message' => 'No jobs available'
+        ]);
+    }
+
+
+
+    /**
+     * CALCULATE PAGINATION
+     */
 
     $total_jobs = count($jobs);
 
@@ -47,13 +131,23 @@ function solex_load_jobs_callback()
 
     $paged_jobs = array_slice($jobs, $offset, $per_page);
 
+
+
+    /**
+     * JOB LIST HTML
+     */
+
     ob_start();
 
     foreach ($paged_jobs as $job) :
 
 ?>
 
-        <div class="solex-job-card solex-view-details" data-job-id="<?php echo esc_attr($job['job_id']); ?>">
+        <div
+
+            class="solex-job-card solex-view-details"
+
+            data-job-id="<?php echo esc_attr($job['job_id']); ?>">
 
             <div class="solex-job-top">
 
@@ -82,7 +176,11 @@ function solex_load_jobs_callback()
                     </div>
 
                     <div class="solex-location">
-                        📍 <?php echo esc_html($job['location']); ?>
+
+                        📍
+
+                        <?php echo esc_html($job['location']); ?>
+
                     </div>
 
                 </div>
@@ -92,7 +190,11 @@ function solex_load_jobs_callback()
             <div class="solex-job-footer">
 
                 <div class="solex-openings">
-                    <?php echo esc_html($job['openings']); ?> Openings
+
+                    <?php echo esc_html($job['openings']); ?>
+
+                    Openings
+
                 </div>
 
                 <div class="solex-card-arrow">
@@ -109,6 +211,12 @@ function solex_load_jobs_callback()
 
     $jobs_html = ob_get_clean();
 
+
+
+    /**
+     * PAGINATION HTML
+     */
+
     ob_start();
 
     ?>
@@ -118,9 +226,13 @@ function solex_load_jobs_callback()
         <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
 
             <button
+
                 class="solex-page-btn <?php echo ($page == $i) ? 'active' : ''; ?>"
-                data-page="<?php echo $i; ?>">
-                <?php echo $i; ?>
+
+                data-page="<?php echo esc_attr($i); ?>">
+
+                <?php echo esc_html($i); ?>
+
             </button>
 
         <?php endfor; ?>
@@ -131,8 +243,17 @@ function solex_load_jobs_callback()
 
     $pagination_html = ob_get_clean();
 
-    wp_send_json([
+
+
+    /**
+     * RESPONSE
+     */
+
+    wp_send_json_success([
+
         'jobs' => $jobs_html,
+
         'pagination' => $pagination_html
+
     ]);
 }

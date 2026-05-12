@@ -1,12 +1,22 @@
 :root{
     --heading-color:#1a1a1a;
     --text-color:#4b4b4d;
-    --primary:#2c4a96;
-    --border:#eaeaea;
-    --light-bg:#f8f9fc;
+
+    --primary:#f58634;
+    --primary-hover:#000000;
+
+    --border:#ececec;
+    --light-bg:#fff7f1;
+
+    --shadow:
+        0 10px 35px rgba(0,0,0,0.06);
+
+    --transition:0.28s ease;
 }
 
-/* GLOBAL */
+/* =========================================
+GLOBAL
+========================================= */
 
 .solex-careers-wrapper *{
     box-sizing:border-box;
@@ -19,7 +29,9 @@
     font-family:'Roboto', sans-serif;
 }
 
-/* HEADINGS */
+/* =========================================
+HEADINGS
+========================================= */
 
 .solex-careers-wrapper h1,
 .solex-careers-wrapper h2,
@@ -31,7 +43,9 @@
     margin-top:0;
 }
 
-/* TEXT */
+/* =========================================
+TEXT
+========================================= */
 
 .solex-careers-wrapper p,
 .solex-careers-wrapper span,
@@ -40,13 +54,17 @@
     color:var(--text-color);
 }
 
-/* LEFT */
+/* =========================================
+LEFT PANEL
+========================================= */
 
 .solex-job-list{
     width:45%;
 }
 
-/* RIGHT */
+/* =========================================
+RIGHT PANEL
+========================================= */
 
 .solex-job-detail{
     width:55%;
@@ -55,69 +73,118 @@
     align-self:flex-start;
 }
 
-/* CARD */
+/* =========================================
+JOB CARD
+========================================= */
 
 .solex-job-card{
     background:#fff;
     border:1px solid var(--border);
-    border-radius:14px;
+    border-radius:20px;
     padding:18px;
     margin-bottom:14px;
-    transition:0.3s ease;
+
+    transition:var(--transition);
+
     cursor:pointer;
     position:relative;
+
+    overflow:hidden;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 .solex-job-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 15px 40px rgba(0,0,0,0.06);
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,0.08);
+
+    border-color:#ffd2b2;
+}
+
+.solex-job-card:active{
+    transform:scale(0.98);
 }
 
 .solex-job-card.active{
 
-    border:1px solid #2c4a96;
-    background:#f5f8ff;
+    border:1px solid #f58634;
+
+    background:#fffaf5;
 
     box-shadow:
-        0 10px 30px rgba(44,74,150,0.12);
+        0 12px 35px rgba(245,134,52,0.16);
 
     transform:translateY(-2px);
 }
 
+/* =========================================
+CARD TOP
+========================================= */
+
 .solex-job-top{
     display:flex;
     gap:14px;
+    align-items:flex-start;
 }
 
 .solex-icon{
-    width:48px;
-    height:48px;
-    background:#eef3ff;
-    border-radius:18px;
+    width:52px;
+    height:52px;
+
+    background:#fff3e8;
+
+    border-radius:16px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:24px;
+
+    font-size:22px;
+
     flex-shrink:0;
 }
 
+.solex-job-info{
+    width:100%;
+}
+
 .solex-job-info h3{
-    font-size:20px;
-    margin-bottom:10px;
+    font-size:19px;
+    line-height:1.4;
+    margin-bottom:8px;
+    font-weight:700;
 }
 
 .solex-meta{
     display:flex;
-    gap:12px;
+    gap:8px;
     margin-bottom:12px;
     flex-wrap:wrap;
+}
+
+.solex-meta span{
+
+    background:#f6f6f6;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:500;
 }
 
 .solex-location{
     font-size:14px;
 }
 
-/* FOOTER */
+/* =========================================
+CARD FOOTER
+========================================= */
 
 .solex-job-footer{
     margin-top:16px;
@@ -127,56 +194,117 @@
 }
 
 .solex-openings{
-    background:#eaf8ec;
-    color:#2d7b3f !important;
-    padding:8px 16px;
-    border-radius:10px;
-    font-size:14px;
-    font-weight:500;
+
+    background:#fff2e7;
+
+    color:#f58634 !important;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:13px;
+
+    font-weight:600;
 }
 
 .solex-card-arrow{
-    width:36px;
-    height:36px;
-    background:#f3f5fa;
-    border-radius:10px;
+    width:38px;
+    height:38px;
+
+    background:#fff4eb;
+
+    border-radius:12px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:18px;
-    color:#2c4a96;
+
+    color:#f58634;
+
     font-weight:700;
+
+    transition:var(--transition);
 }
 
-/* DETAIL PANEL */
+.solex-job-card:hover .solex-card-arrow{
+
+    background:#f58634;
+
+    color:#fff;
+
+    transform:translateX(2px);
+}
+
+/* =========================================
+DETAIL PANEL
+========================================= */
 
 .solex-job-detail-inner{
+
     background:#fff;
-    padding:35px;
-    border-radius:16px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+
+    padding:38px;
+
+    border-radius:24px;
+
+    box-shadow:var(--shadow);
+
     min-height:500px;
+
+    border:1px solid #f3f3f3;
 }
 
 .solex-job-detail-inner h2{
-    font-size:36px;
-    margin-bottom:10px;
+    font-size:38px;
+    line-height:1.2;
+    margin-bottom:14px;
+    font-weight:700;
 }
 
 .solex-detail-meta{
     display:flex;
-    gap:20px;
+    gap:12px;
     flex-wrap:wrap;
     margin-top:10px;
-    margin-bottom:20px;
+    margin-bottom:24px;
+}
+
+.solex-detail-meta span{
+    background:#f6f6f6;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:500;
 }
 
 .solex-openings-box{
-    background:#eef8f0;
-    padding:16px;
-    border-radius:14px;
-    margin:20px 0;
-    font-weight:500;
+
+    background:#fff5ec;
+
+    padding:16px 18px;
+
+    border-radius:16px;
+
+    margin:24px 0;
+
+    font-weight:600;
+
+    border-left:4px solid #f58634;
+}
+
+.solex-job-detail-inner h4{
+    margin-top:28px;
+    margin-bottom:14px;
+    font-size:20px;
+}
+
+.solex-job-detail-inner p,
+.solex-job-detail-inner li{
+    line-height:1.8;
+    font-size:15px;
 }
 
 .solex-job-detail-inner ul{
@@ -187,45 +315,108 @@
     margin-bottom:10px;
 }
 
-.solex-apply-btn{
-    background:var(--primary);
-    color:#fff;
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:14px;
-    margin-top:30px;
-    font-size:16px;
-    cursor:pointer;
-    font-family:'DM Sans', sans-serif;
-    font-weight:700;
+.solex-description{
+    line-height:1.8;
 }
 
-/* PAGINATION */
+/* =========================================
+APPLY BUTTON
+========================================= */
+
+.solex-apply-btn{
+
+    background:var(--primary);
+
+    color:#fff !important;
+
+    width:100%;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:16px;
+
+    margin-top:32px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    font-family:'DM Sans', sans-serif;
+
+    font-weight:700;
+
+    transition:var(--transition);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-decoration:none;
+}
+
+.solex-apply-btn:hover{
+
+    background:var(--primary-hover);
+
+    transform:translateY(-2px);
+}
+
+/* =========================================
+PAGINATION
+========================================= */
 
 .solex-pagination{
     display:flex;
     gap:10px;
     margin-top:30px;
     justify-content:center;
+    flex-wrap:wrap;
 }
 
 .solex-page-btn{
+
     width:42px;
     height:42px;
+
     border:none;
-    border-radius:12px;
-    background:#f1f3f8;
+
+    border-radius:14px;
+
+    background:#f4f4f4;
+
     cursor:pointer;
-    font-weight:600;
+
+    font-weight:700;
+
+    transition:var(--transition);
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 .solex-page-btn.active{
+
     background:var(--primary);
+
+    color:#fff;
+
+    box-shadow:
+        0 10px 25px rgba(245,134,52,0.25);
+}
+
+.solex-page-btn:hover{
+
+    background:#f58634;
+
     color:#fff;
 }
 
-/* SKELETON */
+/* =========================================
+SKELETON
+========================================= */
 
 .skeleton{
     position:relative;
@@ -273,16 +464,43 @@
     margin-top:30px;
 }
 
-.solex-job-card,
-.solex-page-btn,
-.solex-apply-btn{
-    -webkit-tap-highlight-color: transparent;
+/* =========================================
+ERROR STATE
+========================================= */
+
+.solex-error-state{
+    text-align:center;
+    padding:40px 20px;
 }
 
-.solex-job-card:active{
-    transform:scale(0.98);
+.solex-error-state h3{
+    margin-bottom:10px;
 }
 
+/* =========================================
+EMPTY STATE
+========================================= */
+
+.solex-empty-state{
+    text-align:center;
+    padding:60px 20px;
+    background:#fff;
+    border-radius:24px;
+    border:1px solid var(--border);
+}
+
+/* =========================================
+SCROLLBAR
+========================================= */
+
+.solex-job-detail-inner::-webkit-scrollbar{
+    width:8px;
+}
+
+.solex-job-detail-inner::-webkit-scrollbar-thumb{
+    background:#d6d6d6;
+    border-radius:999px;
+}
 
 /* =========================================
 TABLET
@@ -311,27 +529,11 @@ TABLET
     }
 }
 
-
-
 /* =========================================
 MOBILE
 ========================================= */
 
 @media(max-width:767px){
-
-    .solex-job-detail{
-        margin-top:10px;
-    }
-
-    .solex-job-detail::before{
-        content:'Job Details';
-        display:block;
-        font-family:'DM Sans', sans-serif;
-        font-size:20px;
-        font-weight:700;
-        color:#1a1a1a;
-        margin-bottom:14px;
-    }
 
     .solex-careers-wrapper{
         flex-direction:column;
@@ -346,41 +548,54 @@ MOBILE
     .solex-job-detail{
         position:relative;
         top:auto;
+        margin-top:10px;
+    }
+
+    .solex-job-detail::before{
+        content:'Job Details';
+        display:block;
+        font-family:'DM Sans', sans-serif;
+        font-size:20px;
+        font-weight:700;
+        color:#1a1a1a;
+        margin-bottom:14px;
     }
 
     /* CARD */
 
     .solex-job-card{
         padding:16px;
-        border-radius:12px;
+        border-radius:16px;
+    }
+
+    .solex-job-card:hover{
+        transform:none;
     }
 
     .solex-job-top{
         gap:12px;
-        align-items:flex-start;
     }
 
     .solex-icon{
-        width:42px;
-        height:42px;
+        width:44px;
+        height:44px;
         font-size:18px;
         border-radius:12px;
     }
 
-    .solex-job-info{
-        width:100%;
-    }
-
     .solex-job-info h3{
-        font-size:18px;
-        line-height:1.3;
+        font-size:17px;
         margin-bottom:8px;
     }
 
     .solex-meta{
         gap:6px;
-        font-size:13px;
         margin-bottom:8px;
+    }
+
+    .solex-meta span{
+        font-size:11px;
+        padding:5px 9px;
     }
 
     .solex-location{
@@ -397,17 +612,17 @@ MOBILE
     }
 
     .solex-card-arrow{
-        width:32px;
-        height:32px;
-        border-radius:8px;
-        font-size:16px;
+        width:34px;
+        height:34px;
+        border-radius:10px;
+        font-size:15px;
     }
 
     /* DETAIL PANEL */
 
     .solex-job-detail-inner{
         padding:22px;
-        border-radius:14px;
+        border-radius:18px;
         min-height:auto;
     }
 
@@ -417,8 +632,11 @@ MOBILE
     }
 
     .solex-detail-meta{
-        gap:10px;
-        font-size:13px;
+        gap:8px;
+    }
+
+    .solex-detail-meta span{
+        font-size:12px;
     }
 
     .solex-openings-box{
@@ -444,8 +662,8 @@ MOBILE
     }
 
     .solex-apply-btn{
-        padding:14px;
-        border-radius:12px;
+        padding:15px;
+        border-radius:14px;
         font-size:15px;
         margin-top:24px;
     }
@@ -454,19 +672,15 @@ MOBILE
 
     .solex-pagination{
         margin-top:22px;
-        flex-wrap:wrap;
     }
 
     .solex-page-btn{
         width:38px;
         height:38px;
-        border-radius:10px;
+        border-radius:12px;
         font-size:14px;
     }
-
 }
-
-
 
 /* =========================================
 SMALL MOBILE
@@ -500,7 +714,7 @@ SMALL MOBILE
 
     .solex-detail-meta{
         flex-direction:column;
-        gap:6px;
+        align-items:flex-start;
     }
 
     .solex-openings-box{

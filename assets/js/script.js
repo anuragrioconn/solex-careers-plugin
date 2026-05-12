@@ -1,28 +1,12 @@
 jQuery(document).ready(function ($) {
 
-    // JOB DETAIL CLICK
+    /**
+     * DETAIL SKELETON
+     */
 
-    $(document).on('click', '.solex-view-details', function () {
+    function solexDetailSkeleton() {
 
-        let job_id = $(this).data('job-id');
-
-        $('.solex-job-card').removeClass('active');
-
-        $(this).closest('.solex-job-card').addClass('active');
-        
-        // MOBILE INSTANT SCROLL
-
-        if ($(window).width() < 768) {
-
-            $('html, body').stop().animate({
-
-                scrollTop: $('#solex-job-detail').offset().top - 20
-
-            }, 350);
-
-        }
-
-        $('.solex-job-detail-inner').html(`
+        return `
 
             <div class="skeleton skeleton-title"></div>
 
@@ -35,7 +19,92 @@ jQuery(document).ready(function ($) {
 
             <div class="skeleton skeleton-button"></div>
 
-        `);
+        `;
+    }
+
+
+
+    /**
+     * JOB CARD SKELETON
+     */
+
+    function solexCardSkeleton() {
+
+        return `
+
+            <div class="solex-job-card">
+
+                <div class="skeleton skeleton-title"></div>
+
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+
+            </div>
+
+            <div class="solex-job-card">
+
+                <div class="skeleton skeleton-title"></div>
+
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+
+            </div>
+
+        `;
+    }
+
+
+
+    /**
+     * LOAD JOB DETAILS
+     */
+
+    $(document).on('click', '.solex-view-details', function () {
+
+        let job_id = $(this).data('job-id');
+
+
+
+        /**
+         * ACTIVE CARD
+         */
+
+        $('.solex-job-card').removeClass('active');
+
+        $(this).closest('.solex-job-card').addClass('active');
+
+
+
+        /**
+         * MOBILE SCROLL
+         */
+
+        if ($(window).width() < 768) {
+
+            window.scrollTo({
+
+                top: $('#solex-job-detail').offset().top - 20,
+
+                behavior: 'smooth'
+            });
+        }
+
+
+
+        /**
+         * SKELETON
+         */
+
+        $('.solex-job-detail-inner').html(
+
+            solexDetailSkeleton()
+        );
+
+
+
+        /**
+         * AJAX
+         */
 
         $.ajax({
 
@@ -43,100 +112,269 @@ jQuery(document).ready(function ($) {
 
             type: 'POST',
 
+            dataType: 'json',
+
             data: {
+
                 action: 'solex_get_job_detail',
+
+                nonce: solex_ajax.nonce,
+
                 job_id: job_id
             },
 
             success: function (response) {
 
+                /**
+                 * API ERROR
+                 */
+
+                if (!response.success) {
+
+                    $('.solex-job-detail-inner').html(`
+
+                        <div class="solex-error-state">
+
+                            <h3>
+                                Failed to Load Job
+                            </h3>
+
+                            <p>
+                                Please try again later.
+                            </p>
+
+                        </div>
+
+                    `);
+
+                    return;
+                }
+
+
+
+                /**
+                 * RESPONSE DATA
+                 */
+
+                let job = response.data;
+
                 let responsibilities = '';
+
                 let qualifications = '';
 
-                response.responsibilities.forEach(function (item) {
-                    responsibilities += `<li>${item}</li>`;
-                });
 
-                response.qualifications.forEach(function (item) {
-                    qualifications += `<li>${item}</li>`;
-                });
+
+                /**
+                 * RESPONSIBILITIES
+                 */
+
+                if (
+
+                    Array.isArray(job.responsibilities)
+
+                ) {
+
+                    job.responsibilities.forEach(function (item) {
+
+                        responsibilities += `<li>${item}</li>`;
+                    });
+                }
+
+
+
+                /**
+                 * QUALIFICATIONS
+                 */
+
+                if (
+
+                    Array.isArray(job.qualifications)
+
+                ) {
+
+                    job.qualifications.forEach(function (item) {
+
+                        qualifications += `<li>${item}</li>`;
+                    });
+                }
+
+
+
+                /**
+                 * APPLY BUTTON
+                 */
+
+                let applyButton = '';
+
+                if (job.apply_url) {
+
+                    applyButton = `
+
+                        <a
+
+                            href="${job.apply_url}"
+
+                            class="solex-apply-btn"
+
+                            target="_blank"
+
+                        >
+
+                            Apply Now
+
+                        </a>
+
+                    `;
+                }
+
+
+
+                /**
+                 * FINAL HTML
+                 */
 
                 let html = `
 
-                    <h2>${response.title}</h2>
+                    <h2>
+
+                        ${job.title || 'Untitled Job'}
+
+                    </h2>
 
                     <div class="solex-detail-meta">
 
-                        <span>${response.department}</span>
-                        <span>${response.type}</span>
-                        <span>${response.location}</span>
+                        <span>
+
+                            ${job.department || ''}
+
+                        </span>
+
+                        <span>
+
+                            ${job.type || ''}
+
+                        </span>
+
+                        <span>
+
+                            ${job.location || ''}
+
+                        </span>
 
                     </div>
 
                     <div class="solex-openings-box">
-                        ${response.openings} Openings
+
+                        ${job.openings || 1}
+
+                        Openings
+
                     </div>
 
-                    <h4>Job Description</h4>
+                    <h4>
+                        Job Description
+                    </h4>
 
-                    <p>${response.description}</p>
+                    <div class="solex-description">
 
-                    <h4>Responsibilities</h4>
+                        ${job.description || ''}
 
-                    <ul>${responsibilities}</ul>
+                    </div>
 
-                    <h4>Qualifications</h4>
+                    ${responsibilities ? `
 
-                    <ul>${qualifications}</ul>
+                        <h4>
+                            Responsibilities
+                        </h4>
 
-                    <button class="solex-apply-btn">
-                        Apply Now
-                    </button>
+                        <ul>
+                            ${responsibilities}
+                        </ul>
+
+                    ` : ''}
+
+                    ${qualifications ? `
+
+                        <h4>
+                            Qualifications
+                        </h4>
+
+                        <ul>
+                            ${qualifications}
+                        </ul>
+
+                    ` : ''}
+
+                    ${applyButton}
 
                 `;
 
+
+
                 $('.solex-job-detail-inner').html(html);
-                
+            },
+
+
+
+            /**
+             * AJAX FAILURE
+             */
+
+            error: function () {
+
+                $('.solex-job-detail-inner').html(`
+
+                    <div class="solex-error-state">
+
+                        <h3>
+                            Something Went Wrong
+                        </h3>
+
+                        <p>
+                            Unable to load job details.
+                        </p>
+
+                    </div>
+
+                `);
             }
         });
-
     });
 
 
 
-    // AUTO LOAD FIRST JOB
+    /**
+     * AUTO LOAD FIRST JOB
+     */
 
     $('.solex-view-details').first().trigger('click');
 
 
 
-    // AJAX PAGINATION
+    /**
+     * AJAX PAGINATION
+     */
 
     $(document).on('click', '.solex-page-btn', function () {
 
         let page = $(this).data('page');
 
-        $('#solex-jobs-container').html(`
 
-            <div class="solex-job-card">
 
-                <div class="skeleton skeleton-title"></div>
+        /**
+         * SKELETON
+         */
 
-                <div class="skeleton skeleton-text"></div>
-                <div class="skeleton skeleton-text"></div>
+        $('#solex-jobs-container').html(
 
-            </div>
+            solexCardSkeleton()
+        );
 
-            <div class="solex-job-card">
 
-                <div class="skeleton skeleton-title"></div>
 
-                <div class="skeleton skeleton-text"></div>
-                <div class="skeleton skeleton-text"></div>
-
-            </div>
-
-        `);
+        /**
+         * AJAX
+         */
 
         $.ajax({
 
@@ -144,22 +382,86 @@ jQuery(document).ready(function ($) {
 
             type: 'POST',
 
+            dataType: 'json',
+
             data: {
+
                 action: 'solex_load_jobs',
+
+                nonce: solex_ajax.nonce,
+
                 page: page
             },
 
             success: function (response) {
 
-                $('#solex-jobs-container').html(response.jobs);
+                /**
+                 * API ERROR
+                 */
 
-                $('#solex-pagination-container').html(response.pagination);
+                if (!response.success) {
 
-                $('.solex-view-details').first().trigger('click');
+                    $('#solex-jobs-container').html(`
 
+                        <div class="solex-error-state">
+
+                            Failed to load jobs.
+
+                        </div>
+
+                    `);
+
+                    return;
+                }
+
+
+
+                /**
+                 * UPDATE HTML
+                 */
+
+                $('#solex-jobs-container').html(
+
+                    response.data.jobs
+                );
+
+                $('#solex-pagination-container').html(
+
+                    response.data.pagination
+                );
+
+
+
+                /**
+                 * AUTO LOAD FIRST JOB
+                 */
+
+                $('.solex-view-details')
+
+                    .first()
+
+                    .trigger('click');
+            },
+
+
+
+            /**
+             * AJAX FAILURE
+             */
+
+            error: function () {
+
+                $('#solex-jobs-container').html(`
+
+                    <div class="solex-error-state">
+
+                        Unable to load jobs.
+
+                    </div>
+
+                `);
             }
         });
-
     });
 
 });
