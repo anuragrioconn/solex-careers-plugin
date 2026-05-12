@@ -134,51 +134,101 @@ function solex_sync_jobs() {
             'job_id' => sanitize_text_field($job_id),
 
             'title' => sanitize_text_field(
-
                 $detail_data['job_title'] ?? 'Untitled Job'
             ),
 
-            'department' => sanitize_text_field(
+            'company' => sanitize_text_field(
+                $detail_data['group_company'] ?? ''
+            ),
 
+            'department' => sanitize_text_field(
                 $detail_data['department'] ?? ''
             ),
 
-            'location' => sanitize_text_field(
-
-                $detail_data['location'] ?? ''
+            'parent_department' => sanitize_text_field(
+                $detail_data['parent_department'] ?? ''
             ),
 
-            'type' => sanitize_text_field(
-
-                $detail_data['employment_type'] ?? ''
+            'designation' => sanitize_text_field(
+                $detail_data['designation'] ?? ''
             ),
 
-            'description' => wp_kses_post(
-
-                $detail_data['job_description'] ?? ''
+            'employee_type' => sanitize_text_field(
+                $detail_data['employee_type'] ?? ''
             ),
 
-            'responsibilities' =>
-
-                $detail_data['roles_responsibilities'] ?? [],
-
-            'qualifications' =>
-
-                $detail_data['skills'] ?? [],
-
-            'apply_url' => esc_url_raw(
-
-                $detail_data['apply_url'] ?? ''
+            'grade' => sanitize_text_field(
+                $detail_data['grade'] ?? ''
             ),
 
-            'openings' => intval(
-
-                $detail_data['no_of_openings'] ?? 1
+            'experience_from' => sanitize_text_field(
+                $detail_data['experience_from'] ?? ''
             ),
 
-            'updated_at' => current_time('mysql'),
+            'experience_to' => sanitize_text_field(
+                $detail_data['experience_to'] ?? ''
+            ),
 
-            'raw' => $detail_data
+            'experience_unit' => sanitize_text_field(
+                $detail_data['unit_experience'] ?? 'Years'
+            ),
+
+            'location' => !empty($detail_data['location_city'][0])
+
+                ? sanitize_text_field(
+                    $detail_data['location_city'][0]
+                )
+
+                : '',
+
+            'full_location' => !empty($detail_data['location'][0])
+
+                ? sanitize_text_field(
+                    $detail_data['location'][0]
+                )
+
+                : '',
+
+            'country' => sanitize_text_field(
+                $detail_data['location_country'] ?? ''
+            ),
+
+            'description' => html_entity_decode(
+
+                wp_kses_post(
+
+                    $detail_data['job_decription']
+
+                    ??
+
+                    $detail_data['job_description']
+
+                    ??
+
+                    ''
+                )
+            ),
+
+            'total_positions' => intval(
+                $detail_data['total_positions'] ?? 0
+            ),
+
+            'open_positions' => intval(
+                $detail_data['open_positions'] ?? 0
+            ),
+
+            'job_status' => sanitize_text_field(
+                $detail_data['job_status'] ?? ''
+            ),
+
+            'created_at' => sanitize_text_field(
+                $detail_data['job_created_timestamp'] ?? ''
+            ),
+
+            'updated_at' => sanitize_text_field(
+                $detail_data['job_updated_timestamp'] ?? ''
+            )
+
         ];
 
 

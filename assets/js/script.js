@@ -158,74 +158,21 @@ jQuery(document).ready(function ($) {
 
                 let job = response.data;
 
-                let responsibilities = '';
-
-                let qualifications = '';
-
-
-
-                /**
-                 * RESPONSIBILITIES
-                 */
-
-                if (
-
-                    Array.isArray(job.responsibilities)
-
-                ) {
-
-                    job.responsibilities.forEach(function (item) {
-
-                        responsibilities += `<li>${item}</li>`;
-                    });
-                }
-
-
-
-                /**
-                 * QUALIFICATIONS
-                 */
-
-                if (
-
-                    Array.isArray(job.qualifications)
-
-                ) {
-
-                    job.qualifications.forEach(function (item) {
-
-                        qualifications += `<li>${item}</li>`;
-                    });
-                }
-
 
 
                 /**
                  * APPLY BUTTON
                  */
 
-                let applyButton = '';
+                let applyButton = `
 
-                if (job.apply_url) {
+                    <button class="solex-apply-btn">
 
-                    applyButton = `
+                        Apply Now
 
-                        <a
+                    </button>
 
-                            href="${job.apply_url}"
-
-                            class="solex-apply-btn"
-
-                            target="_blank"
-
-                        >
-
-                            Apply Now
-
-                        </a>
-
-                    `;
-                }
+                `;
 
 
 
@@ -241,6 +188,8 @@ jQuery(document).ready(function ($) {
 
                     </h2>
 
+
+
                     <div class="solex-detail-meta">
 
                         <span>
@@ -251,7 +200,7 @@ jQuery(document).ready(function ($) {
 
                         <span>
 
-                            ${job.type || ''}
+                            ${job.employee_type || ''}
 
                         </span>
 
@@ -261,49 +210,111 @@ jQuery(document).ready(function ($) {
 
                         </span>
 
+                        <span>
+
+                            ${job.experience_from || '0'}-${job.experience_to || '0'} Years
+
+                        </span>
+
                     </div>
+
+
+
+                    <div class="solex-detail-grid">
+
+                        <div>
+
+                            <strong>
+                                Company
+                            </strong>
+
+                            <span>
+                                ${job.company || '-'}
+                            </span>
+
+                        </div>
+
+
+
+                        <div>
+
+                            <strong>
+                                Grade
+                            </strong>
+
+                            <span>
+                                ${job.grade || '-'}
+                            </span>
+
+                        </div>
+
+
+
+                        <div>
+
+                            <strong>
+                                Parent Department
+                            </strong>
+
+                            <span>
+                                ${job.parent_department || '-'}
+                            </span>
+
+                        </div>
+
+
+
+                        <div>
+
+                            <strong>
+                                Status
+                            </strong>
+
+                            <span>
+                                ${job.job_status || '-'}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
 
                     <div class="solex-openings-box">
 
-                        ${job.openings || 1}
+                        ${job.total_positions || 1}
 
-                        Openings
+                        Open Position
 
                     </div>
+
+
+
+                    <h4>
+                        Full Location
+                    </h4>
+
+                    <p>
+
+                        ${job.full_location || '-'}
+
+                    </p>
+
+
 
                     <h4>
                         Job Description
                     </h4>
 
+
+
                     <div class="solex-description">
 
-                        ${job.description || ''}
+                        ${job.description || 'No description available.'}
 
                     </div>
 
-                    ${responsibilities ? `
 
-                        <h4>
-                            Responsibilities
-                        </h4>
-
-                        <ul>
-                            ${responsibilities}
-                        </ul>
-
-                    ` : ''}
-
-                    ${qualifications ? `
-
-                        <h4>
-                            Qualifications
-                        </h4>
-
-                        <ul>
-                            ${qualifications}
-                        </ul>
-
-                    ` : ''}
 
                     ${applyButton}
 

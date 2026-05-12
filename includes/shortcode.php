@@ -20,6 +20,8 @@ function solex_jobs_shortcode() {
 
     $jobs = solex_get_jobs();
 
+
+
     /**
      * EMPTY STATE
      */
@@ -106,6 +108,8 @@ function solex_jobs_shortcode() {
 
                                 </h3>
 
+
+
                                 <div class="solex-meta">
 
                                     <span>
@@ -121,22 +125,9 @@ function solex_jobs_shortcode() {
 
                                     </span>
 
-                                    <span>•</span>
-
-                                    <span>
-
-                                        <?php
-
-                                        echo esc_html(
-
-                                            $job['type'] ?? 'Full Time'
-                                        );
-
-                                        ?>
-
-                                    </span>
-
                                 </div>
+
+
 
                                 <div class="solex-location">
 
@@ -153,9 +144,79 @@ function solex_jobs_shortcode() {
 
                                 </div>
 
+
+
+                                <div class="solex-job-tags">
+
+                                    <span class="solex-tag">
+
+                                        ⭐
+
+                                        <?php
+
+                                        echo esc_html(
+
+                                            $job['experience_from'] ?? '0'
+                                        );
+
+                                        ?>
+
+                                        -
+
+                                        <?php
+
+                                        echo esc_html(
+
+                                            $job['experience_to'] ?? '0'
+                                        );
+
+                                        ?>
+
+                                        Years
+
+                                    </span>
+
+
+
+                                    <span class="solex-tag">
+
+                                        💼
+
+                                        <?php
+
+                                        echo esc_html(
+
+                                            $job['employee_type'] ?? 'Full Time'
+                                        );
+
+                                        ?>
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <div class="solex-company">
+
+                                    🏢
+
+                                    <?php
+
+                                    echo esc_html(
+
+                                        $job['company'] ?? 'Solex Energy'
+                                    );
+
+                                    ?>
+
+                                </div>
+
                             </div>
 
                         </div>
+
+
 
                         <div class="solex-job-footer">
 
@@ -165,12 +226,12 @@ function solex_jobs_shortcode() {
 
                                 echo esc_html(
 
-                                    $job['openings'] ?? 1
+                                    $job['total_positions'] ?? 1
                                 );
 
                                 ?>
 
-                                Openings
+                                Opening
 
                             </div>
 
