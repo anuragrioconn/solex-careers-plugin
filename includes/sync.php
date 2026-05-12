@@ -126,6 +126,45 @@ function solex_sync_jobs() {
 
 
         /**
+         * FIX DESCRIPTION
+         */
+
+        $raw_description =
+
+            $detail_data['job_decription']
+
+            ??
+
+            $detail_data['job_description']
+
+            ??
+
+            '';
+
+        $decoded_description = html_entity_decode($raw_description);
+
+        $clean_description = trim(wp_strip_all_tags($decoded_description));
+
+
+
+        /**
+         * EMPTY DESCRIPTION FALLBACK
+         */
+
+        if (empty($clean_description)) {
+
+            $decoded_description = '
+
+                <p>
+                    Detailed job description will be shared during the hiring process.
+                </p>
+
+            ';
+        }
+
+
+
+        /**
          * NORMALIZE JOB
          */
 
@@ -193,20 +232,8 @@ function solex_sync_jobs() {
                 $detail_data['location_country'] ?? ''
             ),
 
-            'description' => html_entity_decode(
-
-                wp_kses_post(
-
-                    $detail_data['job_decription']
-
-                    ??
-
-                    $detail_data['job_description']
-
-                    ??
-
-                    ''
-                )
+            'description' => wp_kses_post(
+                $decoded_description
             ),
 
             'total_positions' => intval(

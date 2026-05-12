@@ -90,7 +90,7 @@ function solex_jobs_shortcode() {
                         <div class="solex-job-top">
 
                             <div class="solex-icon">
-                                💼
+                                 <i class="fa-solid fa-briefcase"></i>
                             </div>
 
                             <div class="solex-job-info">
@@ -131,7 +131,7 @@ function solex_jobs_shortcode() {
 
                                 <div class="solex-location">
 
-                                    📍
+                                    <i class="fa-solid fa-location-dot"></i>
 
                                     <?php
 

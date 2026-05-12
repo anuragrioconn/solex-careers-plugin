@@ -225,7 +225,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Company
+                                Company: 
                             </strong>
 
                             <span>
@@ -239,7 +239,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Grade
+                                Grade: 
                             </strong>
 
                             <span>
@@ -253,7 +253,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Parent Department
+                                Parent Department: 
                             </strong>
 
                             <span>
@@ -267,7 +267,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Status
+                                Status: 
                             </strong>
 
                             <span>
