@@ -1,6 +1,16 @@
 jQuery(document).ready(function ($) {
 
     /**
+     * PREVENT MULTIPLE AJAX CALLS
+     */
+
+    let isLoadingJobs = false;
+
+    let isLoadingDetail = false;
+
+
+
+    /**
      * DETAIL SKELETON
      */
 
@@ -61,7 +71,32 @@ jQuery(document).ready(function ($) {
 
     $(document).on('click', '.solex-view-details', function () {
 
+        /**
+         * PREVENT MULTIPLE REQUESTS
+         */
+
+        if (isLoadingDetail) {
+            return;
+        }
+
+        isLoadingDetail = true;
+
+
+
         let job_id = $(this).data('job-id');
+
+
+
+        /**
+         * VALIDATE JOB ID
+         */
+
+        if (!job_id) {
+
+            isLoadingDetail = false;
+
+            return;
+        }
 
 
 
@@ -129,7 +164,7 @@ jQuery(document).ready(function ($) {
                  * API ERROR
                  */
 
-                if (!response.success) {
+                if (!response.success || !response.data) {
 
                     $('.solex-job-detail-inner').html(`
 
@@ -225,7 +260,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Company: 
+                                Company:
                             </strong>
 
                             <span>
@@ -239,7 +274,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Grade: 
+                                Grade:
                             </strong>
 
                             <span>
@@ -253,7 +288,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Parent Department: 
+                                Parent Department:
                             </strong>
 
                             <span>
@@ -267,7 +302,7 @@ jQuery(document).ready(function ($) {
                         <div>
 
                             <strong>
-                                Status: 
+                                Status:
                             </strong>
 
                             <span>
@@ -348,6 +383,13 @@ jQuery(document).ready(function ($) {
                     </div>
 
                 `);
+            },
+
+
+
+            complete: function () {
+
+                isLoadingDetail = false;
             }
         });
     });
@@ -358,7 +400,11 @@ jQuery(document).ready(function ($) {
      * AUTO LOAD FIRST JOB
      */
 
-    $('.solex-view-details').first().trigger('click');
+    setTimeout(function () {
+
+        $('.solex-view-details').first().trigger('click');
+
+    }, 200);
 
 
 
@@ -366,9 +412,35 @@ jQuery(document).ready(function ($) {
      * AJAX PAGINATION
      */
 
-    $(document).on('click', '.solex-page-btn', function () {
+    $(document).on('click', '.solex-page-btn', function (e) {
 
-        let page = $(this).data('page');
+        e.preventDefault();
+
+
+
+        /**
+         * PREVENT MULTIPLE REQUESTS
+         */
+
+        if (isLoadingJobs) {
+            return;
+        }
+
+        isLoadingJobs = true;
+
+
+
+        let page = parseInt($(this).data('page')) || 1;
+
+
+
+        /**
+         * ACTIVE BUTTON
+         */
+
+        $('.solex-page-btn').removeClass('active');
+
+        $(this).addClass('active');
 
 
 
@@ -395,6 +467,8 @@ jQuery(document).ready(function ($) {
 
             dataType: 'json',
 
+            cache: false,
+
             data: {
 
                 action: 'solex_load_jobs',
@@ -410,7 +484,7 @@ jQuery(document).ready(function ($) {
                  * API ERROR
                  */
 
-                if (!response.success) {
+                if (!response.success || !response.data) {
 
                     $('#solex-jobs-container').html(`
 
@@ -428,17 +502,23 @@ jQuery(document).ready(function ($) {
 
 
                 /**
-                 * UPDATE HTML
+                 * UPDATE JOB HTML
                  */
 
                 $('#solex-jobs-container').html(
 
-                    response.data.jobs
+                    response.data.jobs || ''
                 );
+
+
+
+                /**
+                 * UPDATE PAGINATION HTML
+                 */
 
                 $('#solex-pagination-container').html(
 
-                    response.data.pagination
+                    response.data.pagination || ''
                 );
 
 
@@ -447,11 +527,15 @@ jQuery(document).ready(function ($) {
                  * AUTO LOAD FIRST JOB
                  */
 
-                $('.solex-view-details')
+                setTimeout(function () {
 
-                    .first()
+                    $('.solex-view-details')
 
-                    .trigger('click');
+                        .first()
+
+                        .trigger('click');
+
+                }, 100);
             },
 
 
@@ -471,6 +555,13 @@ jQuery(document).ready(function ($) {
                     </div>
 
                 `);
+            },
+
+
+
+            complete: function () {
+
+                isLoadingJobs = false;
             }
         });
     });
