@@ -59,8 +59,6 @@ function solex_get_job_detail_callback()
 
 
 
-
-
     /**
      * RETURN RESPONSE
      */
@@ -120,16 +118,24 @@ function solex_load_jobs_callback()
 
 
     /**
+     * RESET ARRAY INDEXES
+     */
+
+    $jobs = array_values($jobs);
+
+
+
+    /**
      * CALCULATE PAGINATION
      */
 
-    $total_jobs = count($jobs);
+    $total_jobs  = count($jobs);
 
     $total_pages = ceil($total_jobs / $per_page);
 
-    $offset = ($page - 1) * $per_page;
+    $offset      = ($page - 1) * $per_page;
 
-    $paged_jobs = array_slice($jobs, $offset, $per_page);
+    $paged_jobs  = array_slice($jobs, $offset, $per_page);
 
 
 
@@ -141,13 +147,29 @@ function solex_load_jobs_callback()
 
     foreach ($paged_jobs as $job) :
 
+        /**
+         * SAFE VALUES
+         */
+
+        $job_id        = $job['job_id'] ?? '';
+
+        $title         = $job['title'] ?? 'Untitled Job';
+
+        $department    = $job['department'] ?? '';
+
+        $employee_type = $job['employee_type'] ?? '';
+
+        $location      = $job['location'] ?? '';
+
+        $openings      = $job['open_positions'] ?? 0;
+
 ?>
 
         <div
 
             class="solex-job-card solex-view-details"
 
-            data-job-id="<?php echo esc_attr($job['job_id']); ?>">
+            data-job-id="<?php echo esc_attr($job_id); ?>">
 
             <div class="solex-job-top">
 
@@ -158,30 +180,52 @@ function solex_load_jobs_callback()
                 <div class="solex-job-info">
 
                     <h3>
-                        <?php echo esc_html($job['title']); ?>
+                        <?php echo esc_html($title); ?>
                     </h3>
 
                     <div class="solex-meta">
 
-                        <span>
-                            <?php echo esc_html($job['department']); ?>
-                        </span>
+                        <?php if (!empty($department)) : ?>
 
-                        <span>•</span>
+                            <span>
+                                <?php echo esc_html($department); ?>
+                            </span>
 
-                        <span>
-                            <?php echo esc_html($job['type']); ?>
-                        </span>
+                        <?php endif; ?>
+
+
+
+                        <?php if (!empty($department) && !empty($employee_type)) : ?>
+
+                            <span>•</span>
+
+                        <?php endif; ?>
+
+
+
+                        <?php if (!empty($employee_type)) : ?>
+
+                            <span>
+                                <?php echo esc_html($employee_type); ?>
+                            </span>
+
+                        <?php endif; ?>
 
                     </div>
 
-                    <div class="solex-location">
 
-                        📍
 
-                        <?php echo esc_html($job['location']); ?>
+                    <?php if (!empty($location)) : ?>
 
-                    </div>
+                        <div class="solex-location">
+
+                            📍
+
+                            <?php echo esc_html($location); ?>
+
+                        </div>
+
+                    <?php endif; ?>
 
                 </div>
 
@@ -191,7 +235,7 @@ function solex_load_jobs_callback()
 
                 <div class="solex-openings">
 
-                    <?php echo esc_html($job['openings']); ?>
+                    <?php echo esc_html($openings); ?>
 
                     Openings
 
