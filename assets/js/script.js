@@ -66,6 +66,21 @@ jQuery(document).ready(function ($) {
 
 
     /**
+     * RESET JOB DETAIL SCROLL
+     */
+
+    function resetJobDetailScroll() {
+
+        setTimeout(function () {
+
+            $('.solex-job-detail').scrollTop(0);
+
+        }, 50);
+    }
+
+
+
+    /**
      * LOAD JOB DETAILS
      */
 
@@ -127,21 +142,10 @@ jQuery(document).ready(function ($) {
 
 
         /**
-         * RESET DETAIL SCROLL TO TOP
+         * RESET SCROLL BEFORE LOAD
          */
 
-        let detailContainer = document.querySelector('.solex-job-detail');
-
-        if (detailContainer) {
-
-            detailContainer.scrollTo({
-
-                top: 0,
-
-                behavior: 'smooth'
-
-            });
-        }
+        resetJobDetailScroll();
 
 
 
@@ -394,24 +398,19 @@ jQuery(document).ready(function ($) {
 
 
 
+                /**
+                 * UPDATE HTML
+                 */
+
                 $('.solex-job-detail-inner').html(html);
 
 
 
                 /**
-                 * RESET DETAIL SCROLL AFTER CONTENT LOAD
+                 * RESET SCROLL AFTER LOAD
                  */
 
-                if (detailContainer) {
-
-                    detailContainer.scrollTo({
-
-                        top: 0,
-
-                        behavior: 'smooth'
-
-                    });
-                }
+                resetJobDetailScroll();
             },
 
 
