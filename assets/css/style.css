@@ -278,6 +278,141 @@
   margin-bottom: 16px;
 } 
 
+/**
+ * JOB DESCRIPTION TYPOGRAPHY FIX
+ */
+
+.solex-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+}
+
+
+
+/**
+ * RESET ALL INNER TAGS
+ */
+
+.solex-description * {
+    font-family: inherit !important;
+    color: inherit !important;
+    line-height: inherit !important;
+}
+
+
+
+/**
+ * HEADINGS
+ */
+
+.solex-description h1,
+.solex-description h2,
+.solex-description h3,
+.solex-description h4,
+.solex-description h5,
+.solex-description h6 {
+    margin-top: 32px;
+    margin-bottom: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #111;
+}
+
+
+
+/**
+ * PARAGRAPHS
+ */
+
+.solex-description p {
+    margin-bottom: 18px;
+}
+
+
+
+/**
+ * LISTS
+ */
+
+.solex-description ul,
+.solex-description ol {
+    margin: 18px 0 18px 24px;
+    padding: 0;
+}
+
+
+
+/**
+ * LIST ITEMS
+ */
+
+.solex-description li {
+    margin-bottom: 12px;
+    line-height: 1.8;
+}
+
+
+
+/**
+ * STRONG TEXT
+ */
+
+.solex-description strong,
+.solex-description b {
+    font-weight: 700;
+    color: #111;
+}
+
+
+
+/**
+ * REMOVE RANDOM INLINE FONT SIZES
+ */
+
+.solex-description span,
+.solex-description font {
+    font-size: inherit !important;
+}
+
+
+
+/**
+ * TABLE FIX
+ */
+
+.solex-description table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+
+
+/**
+ * TABLE CELLS
+ */
+
+.solex-description td,
+.solex-description th {
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+}
+
+
+
+/**
+ * EXTRA GAP BETWEEN SECTIONS
+ */
+
+.solex-description > *:first-child {
+    margin-top: 0;
+}
+
+.solex-description > *:last-child {
+    margin-bottom: 0;
+}
+
 /* ========================================= APPLY BUTTON ========================================= */
 .solex-apply-btn {
   background: var(--primary);
