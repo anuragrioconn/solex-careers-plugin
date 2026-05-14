@@ -116,13 +116,16 @@ jQuery(document).ready(function ($) {
 
         if ($(window).width() > 767) {
 
-            if ($('#job-listing-main-container').length) {
+            const targetSection = document.getElementById('job-listing-main-container');
 
-                $('html, body').animate({
+            if (targetSection) {
 
-                    scrollTop: $('#job-listing-main-container').offset().top - 30
+                targetSection.scrollIntoView({
 
-                }, 400);
+                    behavior: 'smooth',
+                    block: 'start'
+
+                });
             }
         }
 
