@@ -196,16 +196,34 @@ jQuery(document).ready(function ($) {
 
 
                 /**
+                 * DYNAMIC APPLY URL
+                 */
+
+                let applyUrl = `https://solexhcm.darwinbox.in/ms/candidatev2/main/careers/jobDetails/${job.job_id}`;
+
+
+
+                /**
                  * APPLY BUTTON
                  */
 
                 let applyButton = `
 
-                    <button class="solex-apply-btn">
+                    <a
+
+                        href="${applyUrl}"
+
+                        class="solex-apply-btn"
+
+                        target="_blank"
+
+                        rel="noopener noreferrer"
+
+                    >
 
                         Apply Now
 
-                    </button>
+                    </a>
 
                 `;
 
