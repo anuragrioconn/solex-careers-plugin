@@ -127,6 +127,25 @@ jQuery(document).ready(function ($) {
 
 
         /**
+         * RESET DETAIL SCROLL TO TOP
+         */
+
+        let detailContainer = document.querySelector('.solex-job-detail');
+
+        if (detailContainer) {
+
+            detailContainer.scrollTo({
+
+                top: 0,
+
+                behavior: 'smooth'
+
+            });
+        }
+
+
+
+        /**
          * SKELETON
          */
 
@@ -376,6 +395,23 @@ jQuery(document).ready(function ($) {
 
 
                 $('.solex-job-detail-inner').html(html);
+
+
+
+                /**
+                 * RESET DETAIL SCROLL AFTER CONTENT LOAD
+                 */
+
+                if (detailContainer) {
+
+                    detailContainer.scrollTo({
+
+                        top: 0,
+
+                        behavior: 'smooth'
+
+                    });
+                }
             },
 
 
