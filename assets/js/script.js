@@ -5,7 +5,6 @@ jQuery(document).ready(function ($) {
      */
 
     let isLoadingJobs = false;
-
     let isLoadingDetail = false;
 
 
@@ -66,21 +65,6 @@ jQuery(document).ready(function ($) {
 
 
     /**
-     * RESET JOB DETAIL SCROLL
-     */
-
-    function resetJobDetailScroll() {
-
-        setTimeout(function () {
-
-            $('.solex-job-detail').scrollTop(0);
-
-        }, 50);
-    }
-
-
-
-    /**
      * LOAD JOB DETAILS
      */
 
@@ -126,6 +110,25 @@ jQuery(document).ready(function ($) {
 
 
         /**
+         * SCROLL TO MAIN JOB SECTION
+         * ONLY FOR DESKTOP / TABLET
+         */
+
+        if ($(window).width() > 767) {
+
+            if ($('#job-listing-main-container').length) {
+
+                $('html, body').animate({
+
+                    scrollTop: $('#job-listing-main-container').offset().top - 30
+
+                }, 400);
+            }
+        }
+
+
+
+        /**
          * MOBILE SCROLL
          */
 
@@ -138,14 +141,6 @@ jQuery(document).ready(function ($) {
                 behavior: 'smooth'
             });
         }
-
-
-
-        /**
-         * RESET SCROLL BEFORE LOAD
-         */
-
-        resetJobDetailScroll();
 
 
 
@@ -269,27 +264,19 @@ jQuery(document).ready(function ($) {
                     <div class="solex-detail-meta">
 
                         <span>
-
                             ${job.department || ''}
-
                         </span>
 
                         <span>
-
                             ${job.employee_type || ''}
-
                         </span>
 
                         <span>
-
                             ${job.location || ''}
-
                         </span>
 
                         <span>
-
                             ${job.experience_from || '0'}-${job.experience_to || '0'} Years
-
                         </span>
 
                     </div>
@@ -371,9 +358,7 @@ jQuery(document).ready(function ($) {
                     </h4>
 
                     <p>
-
                         ${job.full_location || '-'}
-
                     </p>
 
 
@@ -404,13 +389,6 @@ jQuery(document).ready(function ($) {
 
                 $('.solex-job-detail-inner').html(html);
 
-
-
-                /**
-                 * RESET SCROLL AFTER LOAD
-                 */
-
-                resetJobDetailScroll();
             },
 
 
