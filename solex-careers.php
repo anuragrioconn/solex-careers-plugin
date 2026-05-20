@@ -3,7 +3,7 @@
  * Plugin Name: Solex Careers
  * Plugin URI: https://solex.in
  * Description: Dynamic careers listing and job detail plugin for Solex.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Anurag
  * Text Domain: solex-careers
  */
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * PLUGIN CONSTANTS
  */
 
-define('SOLEX_PLUGIN_VERSION', '2.1.0');
+define('SOLEX_PLUGIN_VERSION', '2.1.1');
 
 define('SOLEX_PLUGIN_URL', plugin_dir_url(__FILE__));
 
