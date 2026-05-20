@@ -607,53 +607,78 @@ jQuery(document).ready(function ($) {
  * FRONTEND SYNC
  */
 
-jQuery(document).on('click', '#solex-sync-btn', function () {
+$(document).on('click', '#solex-sync-btn', function () {
 
-    const button = jQuery(this);
+    const button = $(this);
 
     button.text('Syncing...');
 
-    jQuery.ajax({
+    $.ajax({
 
         url: solex_ajax.ajax_url,
 
         type: 'POST',
 
+        dataType: 'json',
+
         data: {
-            action: 'solex_frontend_sync'
+
+            action: 'solex_frontend_sync',
+
+            nonce: solex_ajax.nonce
         },
 
         success: function (response) {
 
             if (response.success) {
 
-                jQuery('.solex-sync-status').html(
-                    '<div class="solex-success">' +
-                    response.data.message +
-                    '</div>'
-                );
+                $('.solex-sync-status').html(`
 
-                location.reload();
+                    <div class="solex-success">
+
+                        ${response.data.message}
+
+                    </div>
+
+                `);
+
+                setTimeout(function () {
+
+                    location.reload();
+
+                }, 1000);
 
             } else {
 
-                jQuery('.solex-sync-status').html(
-                    '<div class="solex-error">' +
-                    response.data.message +
-                    '</div>'
-                );
+                $('.solex-sync-status').html(`
+
+                    <div class="solex-error">
+
+                        ${response.data.message}
+
+                    </div>
+
+                `);
             }
 
             button.text('Sync Jobs');
         },
 
-        error: function () {
+        error: function (xhr) {
+
+            console.log(xhr.responseText);
 
             button.text('Sync Jobs');
 
-            jQuery('.solex-sync-status').html(
-                '<div class="solex-error">AJAX Failed</div>'
-            );
+            $('.solex-sync-status').html(`
+
+                <div class="solex-error">
+
+                    AJAX Failed
+
+                </div>
+
+            `);
         }
     });
 });
