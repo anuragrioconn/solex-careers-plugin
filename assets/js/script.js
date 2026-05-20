@@ -1,21 +1,17 @@
 jQuery(document).ready(function ($) {
+  /**
+   * PREVENT MULTIPLE AJAX CALLS
+   */
 
-    /**
-     * PREVENT MULTIPLE AJAX CALLS
-     */
+  let isLoadingJobs = false;
+  let isLoadingDetail = false;
 
-    let isLoadingJobs = false;
-    let isLoadingDetail = false;
+  /**
+   * DETAIL SKELETON
+   */
 
-
-
-    /**
-     * DETAIL SKELETON
-     */
-
-    function solexDetailSkeleton() {
-
-        return `
+  function solexDetailSkeleton() {
+    return `
 
             <div class="skeleton skeleton-title"></div>
 
@@ -29,17 +25,14 @@ jQuery(document).ready(function ($) {
             <div class="skeleton skeleton-button"></div>
 
         `;
-    }
+  }
 
+  /**
+   * JOB CARD SKELETON
+   */
 
-
-    /**
-     * JOB CARD SKELETON
-     */
-
-    function solexCardSkeleton() {
-
-        return `
+  function solexCardSkeleton() {
+    return `
 
             <div class="solex-job-card">
 
@@ -60,62 +53,51 @@ jQuery(document).ready(function ($) {
             </div>
 
         `;
+  }
+
+  /**
+   * LOAD JOB DETAILS
+   */
+
+  $(document).on("click", ".solex-view-details", function () {
+    if (isLoadingDetail) {
+      return;
     }
 
+    isLoadingDetail = true;
 
+    let job_id = $(this).data("job-id");
 
-    /**
-     * LOAD JOB DETAILS
-     */
+    if (!job_id) {
+      isLoadingDetail = false;
 
-    $(document).on('click', '.solex-view-details', function () {
+      return;
+    }
 
-        if (isLoadingDetail) {
-            return;
-        }
+    $(".solex-job-card").removeClass("active");
 
-        isLoadingDetail = true;
+    $(this).closest(".solex-job-card").addClass("active");
 
-        let job_id = $(this).data('job-id');
+    $(".solex-job-detail-inner").html(solexDetailSkeleton());
 
-        if (!job_id) {
+    $.ajax({
+      url: solex_ajax.ajax_url,
 
-            isLoadingDetail = false;
+      type: "POST",
 
-            return;
-        }
+      dataType: "json",
 
-        $('.solex-job-card').removeClass('active');
+      data: {
+        action: "solex_get_job_detail",
 
-        $(this).closest('.solex-job-card').addClass('active');
+        nonce: solex_ajax.nonce,
 
-        $('.solex-job-detail-inner').html(
+        job_id: job_id,
+      },
 
-            solexDetailSkeleton()
-        );
-
-        $.ajax({
-
-            url: solex_ajax.ajax_url,
-
-            type: 'POST',
-
-            dataType: 'json',
-
-            data: {
-
-                action: 'solex_get_job_detail',
-
-                nonce: solex_ajax.nonce,
-
-                job_id: job_id
-            },
-
-            success: function (response) {
-
-                if (!response.success || !response.data) {
-
-                    $('.solex-job-detail-inner').html(`
+      success: function (response) {
+        if (!response.success || !response.data) {
+          $(".solex-job-detail-inner").html(`
 
                         <div class="solex-error-state">
 
@@ -125,28 +107,28 @@ jQuery(document).ready(function ($) {
 
                     `);
 
-                    return;
-                }
+          return;
+        }
 
-                let job = response.data;
+        let job = response.data;
 
-                let applyUrl = `https://solexhcm.darwinbox.in/ms/candidatev2/main/careers/jobDetails/${job.job_id}`;
+        let applyUrl = `https://solexhcm.darwinbox.in/ms/candidatev2/main/careers/jobDetails/${job.job_id}`;
 
-                let html = `
+        let html = `
 
-                    <h2>${job.title || 'Untitled Job'}</h2>
+                    <h2>${job.title || "Untitled Job"}</h2>
 
                     <div class="solex-detail-meta">
 
-                        <span>${job.department || ''}</span>
+                        <span>${job.department || ""}</span>
 
-                        <span>${job.location || ''}</span>
+                        <span>${job.location || ""}</span>
 
                     </div>
 
                     <div class="solex-description">
 
-                        ${job.description || ''}
+                        ${job.description || ""}
 
                     </div>
 
@@ -166,12 +148,11 @@ jQuery(document).ready(function ($) {
 
                 `;
 
-                $('.solex-job-detail-inner').html(html);
-            },
+        $(".solex-job-detail-inner").html(html);
+      },
 
-            error: function () {
-
-                $('.solex-job-detail-inner').html(`
+      error: function () {
+        $(".solex-job-detail-inner").html(`
 
                     <div class="solex-error-state">
 
@@ -180,76 +161,61 @@ jQuery(document).ready(function ($) {
                     </div>
 
                 `);
-            },
+      },
 
-            complete: function () {
-
-                isLoadingDetail = false;
-            }
-        });
+      complete: function () {
+        isLoadingDetail = false;
+      },
     });
+  });
 
+  /**
+   * AUTO LOAD FIRST JOB
+   */
 
+  setTimeout(function () {
+    $(".solex-view-details").first().trigger("click");
+  }, 200);
 
-    /**
-     * AUTO LOAD FIRST JOB
-     */
+  /**
+   * AJAX PAGINATION
+   */
 
-    setTimeout(function () {
+  $(document).on("click", ".solex-page-btn", function (e) {
+    e.preventDefault();
 
-        $('.solex-view-details').first().trigger('click');
+    if (isLoadingJobs) {
+      return;
+    }
 
-    }, 200);
+    isLoadingJobs = true;
 
+    let page = parseInt($(this).data("page")) || 1;
 
+    $(".solex-page-btn").removeClass("active");
 
-    /**
-     * AJAX PAGINATION
-     */
+    $(this).addClass("active");
 
-    $(document).on('click', '.solex-page-btn', function (e) {
+    $("#solex-jobs-container").html(solexCardSkeleton());
 
-        e.preventDefault();
+    $.ajax({
+      url: solex_ajax.ajax_url,
 
-        if (isLoadingJobs) {
-            return;
-        }
+      type: "POST",
 
-        isLoadingJobs = true;
+      dataType: "json",
 
-        let page = parseInt($(this).data('page')) || 1;
+      data: {
+        action: "solex_load_jobs",
 
-        $('.solex-page-btn').removeClass('active');
+        nonce: solex_ajax.nonce,
 
-        $(this).addClass('active');
+        page: page,
+      },
 
-        $('#solex-jobs-container').html(
-
-            solexCardSkeleton()
-        );
-
-        $.ajax({
-
-            url: solex_ajax.ajax_url,
-
-            type: 'POST',
-
-            dataType: 'json',
-
-            data: {
-
-                action: 'solex_load_jobs',
-
-                nonce: solex_ajax.nonce,
-
-                page: page
-            },
-
-            success: function (response) {
-
-                if (!response.success || !response.data) {
-
-                    $('#solex-jobs-container').html(`
+      success: function (response) {
+        if (!response.success || !response.data) {
+          $("#solex-jobs-container").html(`
 
                         <div class="solex-error-state">
 
@@ -259,33 +225,23 @@ jQuery(document).ready(function ($) {
 
                     `);
 
-                    return;
-                }
+          return;
+        }
 
-                $('#solex-jobs-container').html(
+        $("#solex-jobs-container").html(response.data.jobs || "");
 
-                    response.data.jobs || ''
-                );
+        $("#solex-pagination-container").html(response.data.pagination || "");
 
-                $('#solex-pagination-container').html(
+        setTimeout(function () {
+          $(".solex-view-details")
+            .first()
 
-                    response.data.pagination || ''
-                );
+            .trigger("click");
+        }, 100);
+      },
 
-                setTimeout(function () {
-
-                    $('.solex-view-details')
-
-                        .first()
-
-                        .trigger('click');
-
-                }, 100);
-            },
-
-            error: function () {
-
-                $('#solex-jobs-container').html(`
+      error: function () {
+        $("#solex-jobs-container").html(`
 
                     <div class="solex-error-state">
 
@@ -294,95 +250,137 @@ jQuery(document).ready(function ($) {
                     </div>
 
                 `);
-            },
+      },
 
-            complete: function () {
-
-                isLoadingJobs = false;
-            }
-        });
+      complete: function () {
+        isLoadingJobs = false;
+      },
     });
+  });
 
+  /**
+   * FRONTEND SYNC
+   */
 
+  $(document).on("click", "#solex-sync-btn", function (e) {
+    e.preventDefault();
+
+    const button = $(this);
 
     /**
-     * FRONTEND SYNC
+     * PREVENT MULTIPLE CLICKS
      */
 
-    $(document).on('click', '#solex-sync-btn', function () {
+    if (button.hasClass("syncing")) {
+      return;
+    }
 
-        const button = $(this);
+    button.addClass("syncing");
 
-        button.text('Syncing...');
+    /**
+     * LOADING STATE
+     */
 
-        $.ajax({
+    button.html(`
 
-            url: solex_ajax.ajax_url,
+        <i class="fa-solid fa-rotate fa-spin"></i>
 
-            type: 'POST',
+        Syncing...
+    `);
 
-            dataType: 'json',
+    button.prop("disabled", true);
 
-            data: {
+    /**
+     * CLEAR OLD STATUS
+     */
 
-                action: 'solex_frontend_sync',
+    $(".solex-sync-status").html("");
 
-                nonce: solex_ajax.nonce
-            },
+    /**
+     * AJAX REQUEST
+     */
 
-            success: function (response) {
+    $.ajax({
+      url: solex_ajax.ajax_url,
 
-                if (response.success) {
+      type: "POST",
 
-                    $('.solex-sync-status').html(`
+      dataType: "json",
 
-                        <div class="solex-success">
+      data: {
+        action: "solex_frontend_sync",
+      },
 
-                            ${response.data.message}
+      success: function (response) {
+        /**
+         * SUCCESS
+         */
 
-                        </div>
+        if (response.success) {
+          $(".solex-sync-status").html(`
 
-                    `);
+                    <div class="solex-success">
 
-                    setTimeout(function () {
-
-                        location.reload();
-
-                    }, 1000);
-
-                } else {
-
-                    $('.solex-sync-status').html(`
-
-                        <div class="solex-error">
-
-                            ${response.data.message}
-
-                        </div>
-
-                    `);
-                }
-
-                button.text('Sync Jobs');
-            },
-
-            error: function (xhr) {
-
-                console.log(xhr.responseText);
-
-                button.text('Sync Jobs');
-
-                $('.solex-sync-status').html(`
-
-                    <div class="solex-error">
-
-                        AJAX Failed
+                        ${response.data.message}
 
                     </div>
 
                 `);
-            }
-        });
-    });
 
+          /**
+           * RELOAD DASHBOARD
+           */
+
+          setTimeout(function () {
+            location.reload();
+          }, 1200);
+        } else {
+          $(".solex-sync-status").html(`
+
+                    <div class="solex-error">
+
+                        ${response.data.message || "Sync failed"}
+
+                    </div>
+
+                `);
+        }
+      },
+
+      /**
+       * AJAX ERROR
+       */
+
+      error: function (xhr) {
+        console.log(xhr.responseText);
+
+        $(".solex-sync-status").html(`
+
+                <div class="solex-error">
+
+                    AJAX request failed
+
+                </div>
+
+            `);
+      },
+
+      /**
+       * COMPLETE
+       */
+
+      complete: function () {
+        button.removeClass("syncing");
+
+        button.prop("disabled", false);
+
+        button.html(`
+
+                <i class="fa-solid fa-rotate"></i>
+
+                Sync Jobs
+            `);
+      },
+    });
+  });
 });
