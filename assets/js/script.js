@@ -601,3 +601,59 @@ jQuery(document).ready(function ($) {
     });
 
 });
+
+
+/**
+ * FRONTEND SYNC
+ */
+
+jQuery(document).on('click', '#solex-sync-btn', function () {
+
+    const button = jQuery(this);
+
+    button.text('Syncing...');
+
+    jQuery.ajax({
+
+        url: solex_ajax.ajax_url,
+
+        type: 'POST',
+
+        data: {
+            action: 'solex_frontend_sync'
+        },
+
+        success: function (response) {
+
+            if (response.success) {
+
+                jQuery('.solex-sync-status').html(
+                    '<div class="solex-success">' +
+                    response.data.message +
+                    '</div>'
+                );
+
+                location.reload();
+
+            } else {
+
+                jQuery('.solex-sync-status').html(
+                    '<div class="solex-error">' +
+                    response.data.message +
+                    '</div>'
+                );
+            }
+
+            button.text('Sync Jobs');
+        },
+
+        error: function () {
+
+            button.text('Sync Jobs');
+
+            jQuery('.solex-sync-status').html(
+                '<div class="solex-error">AJAX Failed</div>'
+            );
+        }
+    });
+});

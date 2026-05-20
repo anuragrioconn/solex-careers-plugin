@@ -10,12 +10,35 @@ if (!defined('ABSPATH')) {
  * JOB DETAIL AJAX
  */
 
-add_action('wp_ajax_solex_get_job_detail', 'solex_get_job_detail_callback');
+add_action(
 
-add_action('wp_ajax_nopriv_solex_get_job_detail', 'solex_get_job_detail_callback');
+    'wp_ajax_solex_get_job_detail',
+
+    'solex_get_job_detail_callback'
+);
+
+add_action(
+
+    'wp_ajax_nopriv_solex_get_job_detail',
+
+    'solex_get_job_detail_callback'
+);
 
 function solex_get_job_detail_callback()
 {
+
+    /**
+     * VALIDATE NONCE
+     */
+
+    check_ajax_referer(
+
+        'solex_nonce',
+
+        'nonce'
+    );
+
+
 
     /**
      * VALIDATE JOB ID
@@ -30,6 +53,7 @@ function solex_get_job_detail_callback()
     if (empty($job_id)) {
 
         wp_send_json_error([
+
             'message' => 'Invalid Job ID'
         ]);
     }
@@ -45,6 +69,7 @@ function solex_get_job_detail_callback()
     if (empty($jobs)) {
 
         wp_send_json_error([
+
             'message' => 'No jobs found'
         ]);
     }
@@ -66,6 +91,7 @@ function solex_get_job_detail_callback()
     if (!$selected_job) {
 
         wp_send_json_error([
+
             'message' => 'Job not found'
         ]);
     }
@@ -81,12 +107,35 @@ function solex_get_job_detail_callback()
  * AJAX PAGINATION
  */
 
-add_action('wp_ajax_solex_load_jobs', 'solex_load_jobs_callback');
+add_action(
 
-add_action('wp_ajax_nopriv_solex_load_jobs', 'solex_load_jobs_callback');
+    'wp_ajax_solex_load_jobs',
+
+    'solex_load_jobs_callback'
+);
+
+add_action(
+
+    'wp_ajax_nopriv_solex_load_jobs',
+
+    'solex_load_jobs_callback'
+);
 
 function solex_load_jobs_callback()
 {
+
+    /**
+     * VALIDATE NONCE
+     */
+
+    check_ajax_referer(
+
+        'solex_nonce',
+
+        'nonce'
+    );
+
+
 
     /**
      * PAGINATION
@@ -111,6 +160,7 @@ function solex_load_jobs_callback()
     if (empty($jobs)) {
 
         wp_send_json_error([
+
             'message' => 'No jobs available'
         ]);
     }
@@ -182,7 +232,9 @@ function solex_load_jobs_callback()
             <div class="solex-job-top">
 
                 <div class="solex-icon">
+
                     <i class="fa-solid fa-briefcase"></i>
+
                 </div>
 
                 <div class="solex-job-info">
@@ -288,7 +340,9 @@ function solex_load_jobs_callback()
                 </div>
 
                 <div class="solex-card-arrow">
+
                     →
+
                 </div>
 
             </div>
@@ -309,7 +363,7 @@ function solex_load_jobs_callback()
 
     ob_start();
 
-    ?>
+?>
 
     <div class="solex-pagination">
 
@@ -347,5 +401,90 @@ function solex_load_jobs_callback()
 
         'pagination' => $pagination_html
 
+    ]);
+}
+
+
+
+
+
+/**
+ * FRONTEND SYNC
+ */
+
+add_action(
+
+    'wp_ajax_solex_frontend_sync',
+
+    'solex_frontend_sync_callback'
+);
+
+add_action(
+
+    'wp_ajax_nopriv_solex_frontend_sync',
+
+    'solex_frontend_sync_callback'
+);
+
+function solex_frontend_sync_callback()
+{
+
+    /**
+     * VALIDATE NONCE
+     */
+
+    check_ajax_referer(
+
+        'solex_nonce',
+
+        'nonce'
+    );
+
+
+
+    /**
+     * RUN SYNC
+     */
+
+    $result = solex_sync_jobs();
+
+
+
+    /**
+     * FAILED
+     */
+
+    if (!$result) {
+
+        wp_send_json_error([
+
+            'message' => 'Sync failed'
+        ]);
+    }
+
+
+
+    /**
+     * UPDATE LAST SYNC
+     */
+
+    update_option(
+
+        'solex_jobs_last_sync',
+
+        current_time('mysql')
+    );
+
+
+
+    /**
+     * SUCCESS
+     */
+
+    wp_send_json_success([
+
+        'message' => 'Jobs synced successfully',
+
+        'last_sync' => current_time('mysql')
     ]);
 }
