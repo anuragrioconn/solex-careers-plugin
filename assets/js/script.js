@@ -70,25 +70,13 @@ jQuery(document).ready(function ($) {
 
     $(document).on('click', '.solex-view-details', function () {
 
-        /**
-         * PREVENT MULTIPLE REQUESTS
-         */
-
         if (isLoadingDetail) {
             return;
         }
 
         isLoadingDetail = true;
 
-
-
         let job_id = $(this).data('job-id');
-
-
-
-        /**
-         * VALIDATE JOB ID
-         */
 
         if (!job_id) {
 
@@ -97,70 +85,14 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-
-
-        /**
-         * ACTIVE CARD
-         */
-
         $('.solex-job-card').removeClass('active');
 
         $(this).closest('.solex-job-card').addClass('active');
-
-
-
-        /**
-         * SCROLL TO MAIN JOB SECTION
-         * ONLY FOR DESKTOP / TABLET
-         */
-
-        if ($(window).width() > 767) {
-
-            const targetSection = document.getElementById('job-listing-main-container');
-
-            if (targetSection) {
-
-                targetSection.scrollIntoView({
-
-                    behavior: 'smooth',
-                    block: 'start'
-
-                });
-            }
-        }
-
-
-
-        /**
-         * MOBILE SCROLL
-         */
-
-        if ($(window).width() < 768) {
-
-            window.scrollTo({
-
-                top: $('#solex-job-detail').offset().top - 20,
-
-                behavior: 'smooth'
-            });
-        }
-
-
-
-        /**
-         * SKELETON
-         */
 
         $('.solex-job-detail-inner').html(
 
             solexDetailSkeleton()
         );
-
-
-
-        /**
-         * AJAX
-         */
 
         $.ajax({
 
@@ -181,23 +113,13 @@ jQuery(document).ready(function ($) {
 
             success: function (response) {
 
-                /**
-                 * API ERROR
-                 */
-
                 if (!response.success || !response.data) {
 
                     $('.solex-job-detail-inner').html(`
 
                         <div class="solex-error-state">
 
-                            <h3>
-                                Failed to Load Job
-                            </h3>
-
-                            <p>
-                                Please try again later.
-                            </p>
+                            Failed to load job.
 
                         </div>
 
@@ -206,29 +128,27 @@ jQuery(document).ready(function ($) {
                     return;
                 }
 
-
-
-                /**
-                 * RESPONSE DATA
-                 */
-
                 let job = response.data;
-
-
-
-                /**
-                 * DYNAMIC APPLY URL
-                 */
 
                 let applyUrl = `https://solexhcm.darwinbox.in/ms/candidatev2/main/careers/jobDetails/${job.job_id}`;
 
+                let html = `
 
+                    <h2>${job.title || 'Untitled Job'}</h2>
 
-                /**
-                 * APPLY BUTTON
-                 */
+                    <div class="solex-detail-meta">
 
-                let applyButton = `
+                        <span>${job.department || ''}</span>
+
+                        <span>${job.location || ''}</span>
+
+                    </div>
+
+                    <div class="solex-description">
+
+                        ${job.description || ''}
+
+                    </div>
 
                     <a
 
@@ -238,8 +158,6 @@ jQuery(document).ready(function ($) {
 
                         target="_blank"
 
-                        rel="noopener noreferrer"
-
                     >
 
                         Apply Now
@@ -248,157 +166,8 @@ jQuery(document).ready(function ($) {
 
                 `;
 
-
-
-                /**
-                 * FINAL HTML
-                 */
-
-                let html = `
-
-                    <h2>
-
-                        ${job.title || 'Untitled Job'}
-
-                    </h2>
-
-
-
-                    <div class="solex-detail-meta">
-
-                        <span>
-                            ${job.department || ''}
-                        </span>
-
-                        <span>
-                            ${job.employee_type || ''}
-                        </span>
-
-                        <span>
-                            ${job.location || ''}
-                        </span>
-
-                        <span>
-                            ${job.experience_from || '0'}-${job.experience_to || '0'} Years
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="solex-detail-grid">
-
-                        <div>
-
-                            <strong>
-                                Company:
-                            </strong>
-
-                            <span>
-                                ${job.company || '-'}
-                            </span>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <strong>
-                                Grade:
-                            </strong>
-
-                            <span>
-                                ${job.grade || '-'}
-                            </span>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <strong>
-                                Parent Department:
-                            </strong>
-
-                            <span>
-                                ${job.parent_department || '-'}
-                            </span>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <strong>
-                                Status:
-                            </strong>
-
-                            <span>
-                                ${job.job_status || '-'}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="solex-openings-box">
-
-                        ${job.total_positions || 1}
-
-                        Open Position
-
-                    </div>
-
-
-
-                    <h4>
-                        Full Location
-                    </h4>
-
-                    <p>
-                        ${job.full_location || '-'}
-                    </p>
-
-
-
-                    <h4>
-                        Job Description
-                    </h4>
-
-
-
-                    <div class="solex-description">
-
-                        ${job.description || 'No description available.'}
-
-                    </div>
-
-
-
-                    ${applyButton}
-
-                `;
-
-
-
-                /**
-                 * UPDATE HTML
-                 */
-
                 $('.solex-job-detail-inner').html(html);
-
             },
-
-
-
-            /**
-             * AJAX FAILURE
-             */
 
             error: function () {
 
@@ -406,20 +175,12 @@ jQuery(document).ready(function ($) {
 
                     <div class="solex-error-state">
 
-                        <h3>
-                            Something Went Wrong
-                        </h3>
-
-                        <p>
-                            Unable to load job details.
-                        </p>
+                        Unable to load job.
 
                     </div>
 
                 `);
             },
-
-
 
             complete: function () {
 
@@ -450,48 +211,22 @@ jQuery(document).ready(function ($) {
 
         e.preventDefault();
 
-
-
-        /**
-         * PREVENT MULTIPLE REQUESTS
-         */
-
         if (isLoadingJobs) {
             return;
         }
 
         isLoadingJobs = true;
 
-
-
         let page = parseInt($(this).data('page')) || 1;
-
-
-
-        /**
-         * ACTIVE BUTTON
-         */
 
         $('.solex-page-btn').removeClass('active');
 
         $(this).addClass('active');
 
-
-
-        /**
-         * SKELETON
-         */
-
         $('#solex-jobs-container').html(
 
             solexCardSkeleton()
         );
-
-
-
-        /**
-         * AJAX
-         */
 
         $.ajax({
 
@@ -500,8 +235,6 @@ jQuery(document).ready(function ($) {
             type: 'POST',
 
             dataType: 'json',
-
-            cache: false,
 
             data: {
 
@@ -513,10 +246,6 @@ jQuery(document).ready(function ($) {
             },
 
             success: function (response) {
-
-                /**
-                 * API ERROR
-                 */
 
                 if (!response.success || !response.data) {
 
@@ -533,33 +262,15 @@ jQuery(document).ready(function ($) {
                     return;
                 }
 
-
-
-                /**
-                 * UPDATE JOB HTML
-                 */
-
                 $('#solex-jobs-container').html(
 
                     response.data.jobs || ''
                 );
 
-
-
-                /**
-                 * UPDATE PAGINATION HTML
-                 */
-
                 $('#solex-pagination-container').html(
 
                     response.data.pagination || ''
                 );
-
-
-
-                /**
-                 * AUTO LOAD FIRST JOB
-                 */
 
                 setTimeout(function () {
 
@@ -571,12 +282,6 @@ jQuery(document).ready(function ($) {
 
                 }, 100);
             },
-
-
-
-            /**
-             * AJAX FAILURE
-             */
 
             error: function () {
 
@@ -591,8 +296,6 @@ jQuery(document).ready(function ($) {
                 `);
             },
 
-
-
             complete: function () {
 
                 isLoadingJobs = false;
@@ -600,85 +303,86 @@ jQuery(document).ready(function ($) {
         });
     });
 
-});
 
 
-/**
- * FRONTEND SYNC
- */
+    /**
+     * FRONTEND SYNC
+     */
 
-$(document).on('click', '#solex-sync-btn', function () {
+    $(document).on('click', '#solex-sync-btn', function () {
 
-    const button = $(this);
+        const button = $(this);
 
-    button.text('Syncing...');
+        button.text('Syncing...');
 
-    $.ajax({
+        $.ajax({
 
-        url: solex_ajax.ajax_url,
+            url: solex_ajax.ajax_url,
 
-        type: 'POST',
+            type: 'POST',
 
-        dataType: 'json',
+            dataType: 'json',
 
-        data: {
+            data: {
 
-            action: 'solex_frontend_sync',
+                action: 'solex_frontend_sync',
 
-            nonce: solex_ajax.nonce
-        },
+                nonce: solex_ajax.nonce
+            },
 
-        success: function (response) {
+            success: function (response) {
 
-            if (response.success) {
+                if (response.success) {
 
-                $('.solex-sync-status').html(`
+                    $('.solex-sync-status').html(`
 
-                    <div class="solex-success">
+                        <div class="solex-success">
 
-                        ${response.data.message}
+                            ${response.data.message}
 
-                    </div>
+                        </div>
 
-                `);
+                    `);
 
-                setTimeout(function () {
+                    setTimeout(function () {
 
-                    location.reload();
+                        location.reload();
 
-                }, 1000);
+                    }, 1000);
 
-            } else {
+                } else {
+
+                    $('.solex-sync-status').html(`
+
+                        <div class="solex-error">
+
+                            ${response.data.message}
+
+                        </div>
+
+                    `);
+                }
+
+                button.text('Sync Jobs');
+            },
+
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+
+                button.text('Sync Jobs');
 
                 $('.solex-sync-status').html(`
 
                     <div class="solex-error">
 
-                        ${response.data.message}
+                        AJAX Failed
 
                     </div>
 
                 `);
             }
-
-            button.text('Sync Jobs');
-        },
-
-        error: function (xhr) {
-
-            console.log(xhr.responseText);
-
-            button.text('Sync Jobs');
-
-            $('.solex-sync-status').html(`
-
-                <div class="solex-error">
-
-                    AJAX Failed
-
-                </div>
-
-            `);
-        }
+        });
     });
+
 });
