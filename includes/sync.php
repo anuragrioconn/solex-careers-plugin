@@ -336,15 +336,17 @@ function solex_sync_jobs() {
 
     update_option(
 
-        'solex_jobs_last_sync',
+    'solex_jobs_last_sync',
 
         wp_date(
 
             'd M Y, h:i A',
 
-            current_time('timestamp')
+            time(),
+
+            wp_timezone()
         )
-    );
+    );  
 
 
 
