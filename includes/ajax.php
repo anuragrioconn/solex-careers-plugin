@@ -412,79 +412,71 @@ function solex_load_jobs_callback()
  * FRONTEND SYNC
  */
 
-add_action(
+add_action('wp_ajax_solex_frontend_sync', 'solex_frontend_sync_callback');
 
-    'wp_ajax_solex_frontend_sync',
-
-    'solex_frontend_sync_callback'
-);
-
-add_action(
-
-    'wp_ajax_nopriv_solex_frontend_sync',
-
-    'solex_frontend_sync_callback'
-);
+add_action('wp_ajax_nopriv_solex_frontend_sync', 'solex_frontend_sync_callback');
 
 function solex_frontend_sync_callback()
 {
-
     /**
-     * VALIDATE NONCE
+     * START OUTPUT BUFFER
      */
 
-    check_ajax_referer(
+    ob_start();
 
-        'solex_nonce',
+    try {
 
-        'nonce'
-    );
+        /**
+         * RUN SYNC
+         */
 
+        $result = solex_sync_jobs();
 
+        /**
+         * CLEAR UNEXPECTED OUTPUT
+         */
 
-    /**
-     * RUN SYNC
-     */
+        ob_clean();
 
-    $result = solex_sync_jobs();
+        /**
+         * FAILED
+         */
 
+        if (!$result) {
 
+            wp_send_json_error([
 
-    /**
-     * FAILED
-     */
+                'message' => get_option(
+                    'solex_jobs_sync_message',
+                    'Sync failed'
+                )
+            ]);
+        }
 
-    if (!$result) {
+        /**
+         * SUCCESS
+         */
+
+        wp_send_json_success([
+
+            'message' => 'Jobs synced successfully',
+
+            'last_sync' => solex_get_last_sync(),
+
+            'total_jobs' => solex_get_total_jobs(),
+
+            'sync_status' => solex_get_sync_status()
+        ]);
+
+    } catch (Exception $e) {
+
+        ob_clean();
 
         wp_send_json_error([
 
-            'message' => 'Sync failed'
+            'message' => $e->getMessage()
         ]);
     }
 
-
-
-    /**
-     * UPDATE LAST SYNC
-     */
-
-    update_option(
-
-        'solex_jobs_last_sync',
-
-        current_time('mysql')
-    );
-
-
-
-    /**
-     * SUCCESS
-     */
-
-    wp_send_json_success([
-
-        'message' => 'Jobs synced successfully',
-
-        'last_sync' => current_time('mysql')
-    ]);
+    wp_die();
 }
