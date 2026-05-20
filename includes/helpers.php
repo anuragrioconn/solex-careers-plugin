@@ -12,9 +12,18 @@ if (!defined('ABSPATH')) {
 
 function solex_get_jobs() {
 
-    $jobs = get_option('solex_jobs_data', []);
+    $jobs = get_option(
 
-    return is_array($jobs) ? $jobs : [];
+        'solex_jobs_data',
+
+        []
+    );
+
+    return is_array($jobs)
+
+        ? $jobs
+
+        : [];
 }
 
 
@@ -71,6 +80,24 @@ function solex_get_sync_status() {
 
 
 /**
+ * GET SYNC MESSAGE
+ */
+
+function solex_get_sync_message() {
+
+    return get_option(
+
+        'solex_jobs_sync_message',
+
+        ''
+    );
+}
+
+
+
+
+
+/**
  * GET LAST SYNC
  */
 
@@ -94,7 +121,15 @@ function solex_get_last_sync() {
 
 function solex_get_total_jobs() {
 
-    return count(solex_get_jobs());
+    return intval(
+
+        get_option(
+
+            'solex_jobs_total',
+
+            0
+        )
+    );
 }
 
 
@@ -153,7 +188,12 @@ function solex_limit_text(
 
 ) {
 
-    $words = explode(' ', wp_strip_all_tags($text));
+    $words = explode(
+
+        ' ',
+
+        wp_strip_all_tags($text)
+    );
 
     if (count($words) <= $limit) {
 

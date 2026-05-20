@@ -34,7 +34,12 @@ function solex_sync_jobs() {
 
     ) {
 
-        update_option('solex_jobs_sync_status', 'failed');
+        update_option(
+
+            'solex_jobs_sync_status',
+
+            'failed'
+        );
 
         update_option(
 
@@ -56,7 +61,12 @@ function solex_sync_jobs() {
 
     if (empty($job_items)) {
 
-        update_option('solex_jobs_sync_status', 'failed');
+        update_option(
+
+            'solex_jobs_sync_status',
+
+            'failed'
+        );
 
         update_option(
 
@@ -141,9 +151,14 @@ function solex_sync_jobs() {
 
             '';
 
+
+
         $decoded_description = html_entity_decode($raw_description);
 
-        $clean_description = trim(wp_strip_all_tags($decoded_description));
+        $clean_description = trim(
+
+            wp_strip_all_tags($decoded_description)
+        );
 
 
 
@@ -275,7 +290,12 @@ function solex_sync_jobs() {
 
     if (empty($jobs)) {
 
-        update_option('solex_jobs_sync_status', 'failed');
+        update_option(
+
+            'solex_jobs_sync_status',
+
+            'failed'
+        );
 
         update_option(
 
@@ -301,14 +321,36 @@ function solex_sync_jobs() {
      * STORE JOBS
      */
 
-    update_option('solex_jobs_data', $jobs);
+    update_option(
+
+        'solex_jobs_data',
+
+        $jobs
+    );
+
+
+
+    /**
+     * UPDATE LAST SYNC
+     */
 
     update_option(
 
         'solex_jobs_last_sync',
 
-        current_time('mysql')
+        wp_date(
+
+            'd M Y, h:i A',
+
+            current_time('timestamp')
+        )
     );
+
+
+
+    /**
+     * UPDATE STATUS
+     */
 
     update_option(
 
@@ -317,12 +359,24 @@ function solex_sync_jobs() {
         'success'
     );
 
+
+
+    /**
+     * UPDATE MESSAGE
+     */
+
     update_option(
 
         'solex_jobs_sync_message',
 
         'Jobs synced successfully'
     );
+
+
+
+    /**
+     * UPDATE TOTAL
+     */
 
     update_option(
 
