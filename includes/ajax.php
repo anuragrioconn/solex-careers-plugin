@@ -168,12 +168,23 @@ function solex_load_jobs_callback()
 
 
     /**
-     * RESET ARRAY INDEXES
+     * FILTER BY DEPARTMENT BEFORE PAGINATION
      */
+
+    $department = isset($_POST['department'])
+        ? sanitize_text_field(wp_unslash($_POST['department']))
+        : '';
 
     $jobs = array_values($jobs);
 
-
+    if ($department !== '') {
+        $jobs = array_values(array_filter($jobs, function ($job) use ($department) {
+            $job_department = isset($job['department']) ? trim((string) $job['department']) : '';
+            return function_exists('mb_strtolower')
+                ? mb_strtolower($job_department) === mb_strtolower($department)
+                : strtolower($job_department) === strtolower($department);
+        }));
+    }
 
     /**
      * CALCULATE PAGINATION
@@ -355,7 +366,9 @@ function solex_load_jobs_callback()
 
     $jobs_html = ob_get_clean();
 
-
+    if (empty($paged_jobs)) {
+        $jobs_html = '<div class="solex-empty-state"><h3>No Jobs Found</h3><p>There are no open positions in this department.</p></div>';
+    }
 
     /**
      * PAGINATION HTML

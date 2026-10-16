@@ -39,6 +39,37 @@
   color: var(--text-color);
 } 
 
+
+/* ========================================= DEPARTMENT FILTER ========================================= */
+.solex-department-filter {
+  margin-bottom: 20px;
+}
+.solex-department-filter label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+.solex-department-filter select {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 42px 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text-color);
+  font: inherit;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+.solex-department-filter select:focus {
+  border-color: var(--primary);
+  outline: 2px solid rgba(245, 134, 52, 0.15);
+}
+
 /* ========================================= LEFT PANEL ========================================= */
 .solex-job-list {
   width: 45%;

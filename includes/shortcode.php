@@ -83,6 +83,19 @@ function solex_jobs_shortcode() {
 
         <div class="solex-job-list">
 
+            <?php $departments = solex_get_departments(); ?>
+            <div class="solex-department-filter">
+                <label for="solex-department-select">Filter by Department</label>
+                <select id="solex-department-select" aria-label="Filter jobs by department">
+                    <option value="">All Departments</option>
+                    <?php foreach ($departments as $department) : ?>
+                        <option value="<?php echo esc_attr($department); ?>">
+                            <?php echo esc_html($department); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
             <div id="solex-jobs-container">
 
                 <?php foreach ($paged_jobs as $job) : ?>

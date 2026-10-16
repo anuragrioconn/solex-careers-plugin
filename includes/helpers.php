@@ -208,3 +208,21 @@ function solex_limit_text(
 
     ) . '...';
 }
+
+/**
+ * GET UNIQUE DEPARTMENTS FROM SYNCED API JOB DATA
+ */
+function solex_get_departments() {
+    $departments = [];
+    foreach (solex_get_jobs() as $job) {
+        $department = isset($job['department']) ? trim(sanitize_text_field($job['department'])) : '';
+        if ($department !== '') {
+            $key = function_exists('mb_strtolower') ? mb_strtolower($department) : strtolower($department);
+            if (!isset($departments[$key])) {
+                $departments[$key] = $department;
+            }
+        }
+    }
+    natcasesort($departments);
+    return array_values($departments);
+}

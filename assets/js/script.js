@@ -178,84 +178,72 @@ jQuery(document).ready(function ($) {
   }, 200);
 
   /**
-   * AJAX PAGINATION
+   * LOAD JOBS (PAGINATION + DEPARTMENT FILTER)
    */
-
-  $(document).on("click", ".solex-page-btn", function (e) {
-    e.preventDefault();
-
+  function solexLoadJobs(page) {
     if (isLoadingJobs) {
       return;
     }
 
     isLoadingJobs = true;
 
-    let page = parseInt($(this).data("page")) || 1;
+    const department = $("#solex-department-select").val() || "";
 
     $(".solex-page-btn").removeClass("active");
-
-    $(this).addClass("active");
-
     $("#solex-jobs-container").html(solexCardSkeleton());
 
     $.ajax({
       url: solex_ajax.ajax_url,
-
       type: "POST",
-
       dataType: "json",
-
       data: {
         action: "solex_load_jobs",
-
         nonce: solex_ajax.nonce,
-
         page: page,
+        department: department
       },
-
       success: function (response) {
         if (!response.success || !response.data) {
-          $("#solex-jobs-container").html(`
-
-                        <div class="solex-error-state">
-
-                            Failed to load jobs.
-
-                        </div>
-
-                    `);
-
+          $("#solex-jobs-container").html(
+            '<div class="solex-error-state">Failed to load jobs.</div>'
+          );
+          $("#solex-pagination-container").empty();
           return;
         }
 
         $("#solex-jobs-container").html(response.data.jobs || "");
-
         $("#solex-pagination-container").html(response.data.pagination || "");
 
-        setTimeout(function () {
-          $(".solex-view-details")
-            .first()
-
-            .trigger("click");
-        }, 100);
+        if ($("#solex-jobs-container .solex-view-details").length) {
+          setTimeout(function () {
+            $("#solex-jobs-container .solex-view-details").first().trigger("click");
+          }, 100);
+        } else {
+          $(".solex-job-detail-inner").html(
+            '<div class="solex-empty-state"><h3>No Job Selected</h3><p>Select another department to view available positions.</p></div>'
+          );
+        }
       },
-
       error: function () {
-        $("#solex-jobs-container").html(`
-
-                    <div class="solex-error-state">
-
-                        Unable to load jobs.
-
-                    </div>
-
-                `);
+        $("#solex-jobs-container").html(
+          '<div class="solex-error-state">Unable to load jobs.</div>'
+        );
+        $("#solex-pagination-container").empty();
       },
-
       complete: function () {
         isLoadingJobs = false;
-      },
+      }
     });
+  }
+
+  $(document).on("click", ".solex-page-btn", function (e) {
+    e.preventDefault();
+    const page = parseInt($(this).data("page"), 10) || 1;
+    solexLoadJobs(page);
+  });
+
+  $(document).on("change", "#solex-department-select", function () {
+    solexLoadJobs(1);
   });
 
   /**
