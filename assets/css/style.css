@@ -219,10 +219,10 @@
     min-width: 0;
     height: 50px;
     padding: 0;
-    border: 1px solid #e0e5e9;
+    border: 1px solid #e0e5e9 !important;
     border-radius: 8px !important;
-    background: #fff;
-    color: #182030;
+    background: #fff !important;
+    color: #182030 !important;
     font-size: 17px;
     text-decoration: none;
     cursor: pointer;
