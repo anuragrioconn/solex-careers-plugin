@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * PLUGIN CONSTANTS
  */
 
-define('SOLEX_PLUGIN_VERSION', '2.3.0');
+define('SOLEX_PLUGIN_VERSION', '2.3.1');
 
 define('SOLEX_PLUGIN_URL', plugin_dir_url(__FILE__));
 

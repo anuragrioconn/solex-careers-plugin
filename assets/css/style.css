@@ -184,6 +184,74 @@
   color: #1a1a1a !important;
 } 
 
+
+.solex-apply-share-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.solex-apply-share-wrapper .solex-apply-btn {
+    flex: 0 0 calc(50% - 6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.solex-social-share {
+    flex: 0 0 calc(50% - 6px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-width: 0;
+}
+
+.solex-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 44px;
+    padding: 0;
+    border: 1px solid #e0e5e9;
+    border-radius: 8px;
+    background: #fff;
+    color: #182030;
+    font-size: 17px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease,
+                border-color .2s ease;
+}
+
+.solex-share-btn:hover {
+    background: #00594c;
+    color: #fff;
+    border-color: #00594c;
+}
+
+.solex-apply-share-wrapper .solex-apply-btn {
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .solex-apply-share-wrapper {
+        flex-direction: column;
+    }
+
+    .solex-apply-share-wrapper .solex-apply-btn,
+    .solex-social-share {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+}
+
 /* ========================================= CARD FOOTER ========================================= */
 .solex-job-footer {
   margin-top: 18px;

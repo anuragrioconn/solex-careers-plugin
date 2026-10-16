@@ -132,19 +132,72 @@ jQuery(document).ready(function ($) {
 
                     </div>
 
-                    <a
+                    <div class="solex-apply-share-wrapper">
+                      <a
+                          href="${applyUrl}"
+                          class="solex-apply-btn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >
+                          Apply Now
+                      </a>
 
-                        href="${applyUrl}"
+                      <div class="solex-social-share">
+                          <a
+                              href="https://wa.me/?text=${encodeURIComponent(applyUrl)}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="solex-share-btn"
+                              aria-label="Share on WhatsApp"
+                              title="WhatsApp"
+                          >
+                              <i class="fab fa-whatsapp"></i>
+                          </a>
 
-                        class="solex-apply-btn"
+                          <a
+                              href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(applyUrl)}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="solex-share-btn"
+                              aria-label="Share on Facebook"
+                              title="Facebook"
+                          >
+                              <i class="fab fa-facebook-f"></i>
+                          </a>
 
-                        target="_blank"
+                          <a
+                              href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(applyUrl)}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="solex-share-btn"
+                              aria-label="Share on LinkedIn"
+                              title="LinkedIn"
+                          >
+                              <i class="fab fa-linkedin-in"></i>
+                          </a>
 
-                    >
+                          <a
+                              href="https://twitter.com/intent/tweet?url=${encodeURIComponent(applyUrl)}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="solex-share-btn"
+                              aria-label="Share on X"
+                              title="X"
+                          >
+                              <i class="fab fa-x-twitter"></i>
+                          </a>
 
-                        Apply Now
-
-                    </a>
+                          <button
+                              type="button"
+                              class="solex-share-btn solex-copy-link"
+                              data-share-url="${applyUrl.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}"
+                              aria-label="Copy application link"
+                              title="Copy link"
+                          >
+                              <i class="fas fa-link"></i>
+                          </button>
+                      </div>
+                  </div>
 
                 `;
 
@@ -200,12 +253,12 @@ jQuery(document).ready(function ($) {
         action: "solex_load_jobs",
         nonce: solex_ajax.nonce,
         page: page,
-        department: department
+        department: department,
       },
       success: function (response) {
         if (!response.success || !response.data) {
           $("#solex-jobs-container").html(
-            '<div class="solex-error-state">Failed to load jobs.</div>'
+            '<div class="solex-error-state">Failed to load jobs.</div>',
           );
           $("#solex-pagination-container").empty();
           return;
@@ -216,23 +269,25 @@ jQuery(document).ready(function ($) {
 
         if ($("#solex-jobs-container .solex-view-details").length) {
           setTimeout(function () {
-            $("#solex-jobs-container .solex-view-details").first().trigger("click");
+            $("#solex-jobs-container .solex-view-details")
+              .first()
+              .trigger("click");
           }, 100);
         } else {
           $(".solex-job-detail-inner").html(
-            '<div class="solex-empty-state"><h3>No Job Selected</h3><p>Select another department to view available positions.</p></div>'
+            '<div class="solex-empty-state"><h3>No Job Selected</h3><p>Select another department to view available positions.</p></div>',
           );
         }
       },
       error: function () {
         $("#solex-jobs-container").html(
-          '<div class="solex-error-state">Unable to load jobs.</div>'
+          '<div class="solex-error-state">Unable to load jobs.</div>',
         );
         $("#solex-pagination-container").empty();
       },
       complete: function () {
         isLoadingJobs = false;
-      }
+      },
     });
   }
 
@@ -370,5 +425,30 @@ jQuery(document).ready(function ($) {
             `);
       },
     });
+  });
+
+  document.addEventListener("click", async function (event) {
+    const button = event.target.closest(".solex-copy-link");
+
+    if (!button) return;
+
+    const url = button.dataset.shareUrl;
+
+    try {
+      await navigator.clipboard.writeText(url);
+
+      const icon = button.querySelector("i");
+
+      if (icon) {
+        icon.className = "fas fa-check";
+        setTimeout(() => {
+          icon.className = "fas fa-link";
+        }, 1500);
+      }
+
+      button.title = "Link copied!";
+    } catch (error) {
+      window.prompt("Copy this application link:", url);
+    }
   });
 });
